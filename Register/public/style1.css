@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Supermercado+One&display=swap');
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to left, rgb(78, 44, 230), rgb(230, 58, 192));
+    height: 100%;
+    width: 100%;
+}
+.sign-up {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.main {
+    background-color: rgba(44, 28, 28, 0.651);
+    border: 2px solid rgb(255, 255, 255);
+    width: 500px;
+    margin: 0 auto;
+    border-radius: 10px;
+    text-align: center;
+    height: 90%;
+    overflow: auto;
+}
+.main h3 {
+    color: white;
+    font-size: 40px;
+    font-family: 'Supermercado One', cursive;
+}
+.main label {
+    color: white;
+    font-size: 20px;
+    font-family: 'Supermercado One', cursive;
+}
+.main input, select {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+.na {
+    width: 70%;
+    height: 40px;
+    border-radius: 20px;
+    outline: none;
+    border: 2px solid gray;
+}
+.ic {
+    width: 5%;
+    min-width: fit-content;
+    height: 46px;
+    border: 2px solid gray;
+    background-color: #FFF;
+    border-left: none;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+.pa {
+    width: 65%;
+    height: 40px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    outline: none;
+    border: 2px solid gray;
+    border-right: none;
+}
+.sign-up span {
+    color: white;
+    font-size: 15px;
+    font-family: 'Supermercado One', cursive;
+}
+.cls {
+    margin-top: 100px;
+    padding: 15px 40px;
+    background: transparent;
+    border-radius: 6px;
+    color: white;
+    font-size: 15px;
+    font-weight: 400;
+    transition-duration: 2s;
+    margin-bottom: 25px;
+}
+.cls:hover {
+    background: linear-gradient(to left, rgb(0, 255, 0), rgb(255,255,255));
+    color: black;
+}
+.fl {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+@media only screen and (max-width: 882px) {
+    .main {
+        height: 100%;
+        width: 100%;
+        border: none;
+        border-radius: 0px;
+        background-color: rgba(44, 28, 28, 0.37);
+    }
+}
+.sign-up a {
+    color: #777;
+    cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 25px;
+}

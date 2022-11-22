@@ -1,0 +1,70 @@
+body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.fullnav {
+  position: absolute;
+  min-height: 100%;
+  height: auto;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.menu {
+  float: right;
+  color: white;
+  font-weight: 400;
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.close {
+  margin-top: 20px;
+  margin-right: 20px;
+  color: white;
+  float: right;
+  font-weight: 400;
+  padding: 40px;
+  cursor: pointer;
+}
+
+.navnav {
+  width: 100%;
+  height: 10%;
+}
+
+.mmnu {
+  position: relative;
+  margin-top: 250px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrap {
+  height: auto;
+  width: auto;
+}
+
+.mmnu a {
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: white;
+  font-size: 30px;
+}
+
+.cnav {
+  width: 100%;
+  height: 10%;
+  background-color: #010101;
+  min-height: 50px;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}/*# sourceMappingURL=navstyle.css.map */

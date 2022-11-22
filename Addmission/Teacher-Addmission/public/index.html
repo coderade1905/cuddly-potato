@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,0" />
+    <link rel="stylesheet" href="../Navstyle/navstyle.css">
+    <link rel="stylesheet" href="/admission/public/adstyle.css">
+    <link rel="stylesheet" href="/home/public/homestyle.css">
+    <script src="/jquery.min.js"></script>
+    <script src="../../Navstyle/nav.js"></script>
+    <script src="/cookie-validate/validate.js"></script>
+    <script src="/cookie-validate/getcookie.js"></script>
+    <link rel="stylesheet" href="/register-school/public/register-school.css">
+    <script src="/admission/public/adscript.js"></script>
+    <title>Teacher admission</title>
+</head>
+<body>
+    <noscript>Please enable javascript!!</noscript>
+    <script>
+        validate("school");
+        $(document).ready(
+            function() {
+                load("/admission-teacher");
+            }
+        );
+    </script>
+    <div class="fullnav" id="nav">
+        <div class="navnav"><span class="close material-symbols-rounded" id="close">
+            close
+            </span></div>
+        <div class="mmnu">
+            <div class="wrap">
+            <a href="">Payment</a><br>
+            <a href="">Registeral Settings</a><br>
+            <a href="">Lessons</a><br>
+            <a href="">News & Annoucments</a><br>
+            <a href="">Profile Settings</a><br>
+            </div>
+        </div>
+    </div>
+    <nav class="cnav">
+        <img src="" alt="Chat Logo" class="logo">
+        <span class="menu material-symbols-rounded" id="menu">
+            menu
+            </span>
+    </nav>
+    <div class="main" id="main">
+        <div class="main0" id="main0">
+            <div class="header" style="margin-bottom: 0;">
+                <h1 id="snay"></h1>
+                <h2 id="gbfs">Teacher Admmision</h2>
+                <h3>These are the  new applicants</h3>
+            </div>
+            <div>
+                <div class="slist" id="slist">
+                    <h4>Name</h4>
+                    <h4>Details</h4>
+                    <h4>Decision</h4>
+                </div>
+                <div class="mainn" id="mainn"></div>
+            </div>
+        </div>
+    </div>
+    <div id="Modal" class="modal">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-head">
+            <span class="close1" onclick="$('#Modal').hide()">&times;</span>
+            </div>
+            <div class="modal-main" id="modal-main">
+            <h2 id="ti"></h2>
+            <div class='fdec' id='fdec'></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

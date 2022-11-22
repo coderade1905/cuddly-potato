@@ -1,0 +1,108 @@
+@font-face 
+  font-family: 'ethiopic_dire_dawaregular'
+  src: url("/Font/dire_dawa-webfont.woff2") format("woff2")
+  src: url("/Font/dire_dawa-webfont.woff") format("woff")
+  font-weight: normal
+  font-style: normal
+body
+    background: linear-gradient(to left, #4e2ce6, #e63ac0)
+.main
+    height: 100%
+    width: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+.main0
+    height: 96%
+    width: 90%
+    display: grid
+    grid-template-areas: "side head head" "side main main" "side send send"
+    grid-template-rows: 1fr 6fr 0.5fr
+.head
+    grid-area: head
+    border-top-right-radius: 15px
+    background-color: #555555
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border-left: 5px solid rgba(78, 205, 255, 0.993)
+.side
+    border-top-left-radius: 15px
+    border-bottom-left-radius: 15px
+    background-color: #464646
+    grid-area: side
+    min-width: 100px
+.main1
+    background-color: #ffffff54
+    grid-area: main
+    overflow-y: auto
+.send
+    background-color: rgb(0, 0, 0)
+    grid-area: send
+    display: flex
+    border-top: 2px solid black
+.proprv
+    background-color: #000
+    height: 20%
+    border-top-left-radius: 15px 
+    border-bottom: 1px solid #fff
+@media screen and (max-width: 880px) 
+    .main0
+        display: block
+        height: 100%
+        width: 100%
+    .side
+        border-radius: 0
+        height: 100%
+        width: 100%
+    .send
+        display: none
+    .head
+        display: none
+    .main1
+        display: none
+    .proprv
+        border-radius: 0 
+        border-top: 2px solid #fff
+        border-bottom: 0px
+.mes
+    text-align: center
+    vertical-align: center
+    height: 100%
+    width: 95%
+    border: none
+    outline: none
+    font-size: 20px
+    font-family: 'ethiopic_dire_dawaregular'
+.sendb
+    height: 100%
+    width: 5%
+    border: none
+    color: #0000ff
+.sendb:hover
+    background-color: #0000ff
+    color: white
+.pp
+    border-radius: 100%
+    margin-left: 50px
+    margin-top: 10px
+    height: 70px
+    width: 70px
+.delete
+    margin-right: 25px
+    border-radius: 50%
+    padding: 10px 10px
+    background-color: #fff
+    color: red
+    font-size: 30px
+    align-self: center
+    margin-right: 25px
+    cursor: pointer
+    font-weight: 500
+.delete:hover
+    color: #fff
+    background-color: #f00
+.pname
+    font-size: 2rem
+    color: white
+    font-family: 'ethiopic_dire_dawaregular'

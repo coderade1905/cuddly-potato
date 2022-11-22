@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/register/public/style.css">
+    <script src="/jquery.min.js"></script>
+    <title>School Login</title>
+</head>
+<body>
+    <script>
+         $(document).ready(function(){
+        $("#ic").click(function() {
+            if ($("#Password").attr('type') == 'password')
+            {
+            $("#Password").attr('type', 'text');
+            }
+            else {
+                $("#Password").attr('type', 'password');
+            }
+        });
+        $("#login").submit(function(e) {
+          e.preventDefault();
+          var Email = $("#Email").val();
+          var Password =  $("#Password").val();
+         $.ajax({
+            url: '/school-login',
+            type: 'post',
+            data: {email : Email, Pass : Password },
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.status == 200) {
+                var d = new Date();
+                d.setTime(d.getTime() + (360*24*60*60*1000));
+                var expires = "expires="+ d.toUTCString();
+                document.cookie = "school-email=" + response.Email+ ";"  + expires + ";path=/;";
+                document.cookie = "SSN=" + response.SSN+ ";"  + expires + ";path=/;";
+                document.cookie = "school-pass=" + response.Pass + ";"  + expires + ";path=/;";
+                window.location.href = response.red;
+                }
+                else {
+                    $("#strong1").text(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                $("#strong").text(`Something Went Wrong`);
+            }
+        });
+    });
+});
+                </script>
+    
+    <div class="sign-up">
+        <div class="main">
+        <h3>Login</h3>
+            <form id="login">
+            <input type="email" id="Email" class="na mar" placeholder="Email address" required autocomplete="off" maxlength="50"><br>
+            <input type="password" id="Password"  class="pa mar" placeholder="Password" required autocomplete="off" maxlength="100"><button class="ic" id="ic" type="button"><i class="bi bi-eye"></i></button><br>
+            <strong id="strong1" style="color: #fff; font-size: 15px;"></strong><br>
+            <button class="cls" id="sub" type="submit">Login</button><br>
+            <strong  style="color: #fff; font-size: 20px;">New Here?  <a href='http://localhost:3030/register-school'>Register</a></a></strong><br>
+            </form>
+    </div>
+    </div>
+</body>
+
+</html>

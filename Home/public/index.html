@@ -1,0 +1,127 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,0" />
+    <link rel="stylesheet" href="../Navstyle/navstyle.css">
+    <link rel="stylesheet" href="/home/public/homestyle.css">
+    <script src="/jquery.min.js"></script>
+    <script src="/cookie-validate/validate.js"></script>
+    <script src="/cookie-validate/getcookie.js"></script>
+    <link rel="stylesheet" href="/register-school/public/register-school.css">
+    <title>Home</title>
+</head>
+<body>
+    <noscript>Please enable javascript!!</noscript>
+    <script>
+        var d = new Date();
+        var year = d.getFullYear();
+        validate("student");
+        $(document).ready(
+            function () {
+                $("#snay").text(getCookie("SN") + " "+ year);
+                $("#gbfs").text("Gradebook for " + getCookie("FN"));
+            }
+        );
+    </script>
+    <script>
+        $(document).ready(
+            function ()
+            {
+                $("#nav").hide()
+                $("#close").click(
+                    function () 
+                    {
+                        $("#nav").hide();
+                    }
+                );
+                $("#menu").click(
+                    function () 
+                    {
+                        $("#nav").show();
+                    }
+                );
+            }
+        )
+    </script>
+    <div class="fullnav" id="nav">
+        <div class="navnav"><span class="close material-symbols-rounded" id="close">
+            close
+            </span></div>
+        <div class="mmnu">
+            <div class="wrap">
+            <a href="/chat">Chats</a><br>
+            <a href="">Challenges</a><br>
+            <a href="">Lessons</a><br>
+            <a href="">News & Annoucments</a><br>
+            <a href="">Profile Settings</a><br>
+            </div>
+        </div>
+    </div>
+    <nav class="cnav">
+        <img src="" alt="Chat Logo" class="logo">
+        <span class="menu material-symbols-rounded" id="menu">
+            menu
+            </span>
+    </nav>
+    <main class="main">
+        <div class="main0">
+            <div class="header">
+            <h1 id="snay"></h1>
+            <h2 id="gbfs"></h2>
+            <h3>Current Rank - <span>#1</span></h3>
+            </div>
+            <h4 class="avg">Avarage - 50%</h4>
+            <div class="prog">
+                <div class="cprog"></div>
+            </div>
+            <div class="vts"><button class="vsbtn"  id="vs">View Total Score</button></div>
+        </div>
+    </main>
+    <div id="Modal" class="modal">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-head">
+            <span class="close1" onclick="$('#Modal').hide()">&times;</span>
+            </div>
+            <div class="modal-main">
+            <div class="main-head">
+                <select class="sel" name="" id="">
+                    <option value="" disabled selected hidden>Month</option>
+                    <option value="">September</option>
+                    <option value="">October</option>
+                    <option value="">November</option>
+                    <option value="">December</option>
+                    <option value="">January</option>
+                    <option value="">February</option>
+                    <option value="">March</option>
+                    <option value="">April</option>
+                    <option value="">May</option>
+                    <option value="">June</option>
+                    <option value="">July</option>
+                    <option value="">August</option>
+                </select>
+                <select class="sel" name="" id="">
+                    <option value="" disabled selected hidden>Subject</option>
+                    <option value="">Amharic</option>
+                    <option value="">English</option>
+                    <option value="">Maths</option>
+                </select>
+                <select class="sel" name="" id="">
+                    <option value="" disabled selected hidden>Type</option>
+                    <option value="">Tests</option>
+                    <option value="">Mid</option>
+                    <option value="">Final</option>
+                </select>
+            </div>
+            <div class="main-main" id="main-main">
+                <p>Amharic</p>
+                <p>50</p>
+                <p>100</p>
+            </div>
+            </div>
+        </div>
+        </div>
+</body>
+<script src="/home/public/script.js"></script>
+</html>
