@@ -38,7 +38,8 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                 let clean1 = ['radio', 'select']
                 let clean = ['text', 'number', 'file', 'email', 'image', 'password']
                 const reference = {number : "int", text : "varchar", email : "email", image : "varchar", password : "varchar", radio : "varchar", select : "varchar", email : "varchar", }
-                let query = "SELECT id FROM login WHERE email = ? AND password = ?"
+                let query = "SELECT id FROM login WHERE email = ? AND password = ?";
+                console.log(array);
                 con.query(query, [pn, pass] ,(err, data) => {
                     if (err) {
                         throw err;
@@ -54,9 +55,9 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                             {
                                 con1.query(`DROP TABLE students${id}`, (err, data) => {
                                     if (err) {throw err}
-                                    con1.query(`DELETE FROM schema${id} WHERE t = 's'`, (err, data) => {
-                                        if (err) {throw err}
-                                    });
+                                });
+                                con1.query(`DELETE FROM schema${id} WHERE t = 's'`, (err, data) => {
+                                    if (err) {throw err}
                                 });
                             }
                             array.forEach(element => {
@@ -101,8 +102,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                             let fieldType = element["2"];
                                             let length = element["3"];
                                             options += `, ${fieldName.replace(" ", "_")} ${reference[fieldType]}(${length}) NOT NULL`;
-                                            query = `INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`;
-                                            con1.query(query, [fieldName, fieldType, length, '0' , 'NOTANOPTION', 's'],(err, data) => {
+                                            con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, length, '0' , 'NOTANOPTION', 's'],(err, data) => {
                                                 if (err) throw err;
                                             });
                                         }
