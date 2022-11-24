@@ -21,7 +21,7 @@ $(document).ready(function () {
                 <div class="wrwr">
                 <input type="text" placeholder="field name ex: gender" class="sw2na" id="i-text${i}" value="`+response["data"][i].Field_Name+`" required>
                 </div>
-                `+(!["radio", "select"].includes(response["data"][i].Field_Type) ? `<div class="wrwr" id="length${i}"><input type="text" placeholder="Length" class="sw2na" id="i-length${i}" value="${response["data"][i].Length}" required></div>` : `<div class="wrwr1" id="length${i}"></div>` )+`
+                `+(!["radio", "select"].includes(response["data"][i].Field_Type) ? `<div class="wrwr" id="length${i}"><input type="number" placeholder="Length" class="sw2na" id="i-length${i}" value="${response["data"][i].Length}" required></div>` : `<div class="wrwr1" id="length${i}"></div>` )+`
                 <div class="wrwr">
                 <select id="i-type${i}" class="sw2sel" onchange="selchange(${i})" required>
                     <option disabled selected hidden>Input type</option>

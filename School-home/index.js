@@ -101,6 +101,9 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                             let fieldName = element["1"];
                                             let fieldType = element["2"];
                                             let length = element["3"];
+                                            if (!Number.isInteger(length)) {
+                                                res.json({message : "Length must be integer!",status : 400})
+                                            }
                                             options += `, ${fieldName.replace(" ", "_")} ${reference[fieldType]}(${length}) NOT NULL`;
                                             con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, length, '0' , 'NOTANOPTION', 's'],(err, data) => {
                                                 if (err) throw err;

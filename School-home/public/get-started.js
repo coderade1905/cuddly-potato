@@ -69,7 +69,7 @@ function selchange(sel)
         $(`#length${sel}`).empty();
         if ($(`#i-type${sel}`).val() !== "file" && $(`#i-type${sel}`).val() !== "image")
         {
-            $(`#length${sel}`).append(`<input type="text" placeholder="Length" class="sw2na" id="i-length${sel}" required>`);
+            $(`#length${sel}`).append(`<input type="number" placeholder="Length" class="sw2na" id="i-length${sel}" required>`);
             $(`#length${sel}`).attr('class','wrwr');;
         }
         else
