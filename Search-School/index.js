@@ -16,6 +16,7 @@ module.exports =  (app, express, con, con1, crypto, bp, mysql, decrypt) => {
     
 });
 app.route('/school-req').post((req, res) => {
+    var type = req.body.type;
     if (req.body.e == "y")
     {
         try {
@@ -34,7 +35,7 @@ app.route('/school-req').post((req, res) => {
                 }
                 if (data.length > 0)
                 {
-                const query2 = `SELECT * FROM schema${data[0].Id} WHERE t="s"`
+                const query2 = `SELECT * FROM schema${data[0].Id} WHERE t="${type}"`
                 con1.query(query2, (err, data1) => {
                     if(err) {           
                     throw err;

@@ -47,16 +47,16 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                     if(data.length > 0)
                     {
                         var id = data[0].id;
-                        con1.query(`SELECT * FROM schema${id} WHERE t = 's'`, (err, data) => {
+                        con1.query(`SELECT * FROM schema${id} WHERE t = '${type}'`, (err, data) => {
                             if (err) {
                                 throw err
                             }
                             if (data.length > 0)
                             {
-                                con1.query(`DROP TABLE students${id}`, (err, data) => {
+                                con1.query(`DROP TABLE ${ac+id}`, (err, data) => {
                                     if (err) {throw err}
                                 });
-                                con1.query(`DELETE FROM schema${id} WHERE t = 's'`, (err, data) => {
+                                con1.query(`DELETE FROM schema${id} WHERE t = '${type}'`, (err, data) => {
                                     if (err) {throw err}
                                 });
                             }
@@ -86,7 +86,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                                 }
                                             });
                                             options += `, ${fieldName.replace(" ", "_")} ${reference[fieldType]}(${max}) NOT NULL`;
-                                            con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, max, '1' ,options1, 's'], (err, data) => {
+                                            con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, max, '1' ,options1, type], (err, data) => {
                                                 if (err) throw err;
                                             });
                                         }
@@ -105,7 +105,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                                 res.json({message : "Length must be integer!",status : 400})
                                             }
                                             options += `, ${fieldName.replace(" ", "_")} ${reference[fieldType]}(${length}) NOT NULL`;
-                                            con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, length, '0' , 'NOTANOPTION', 's'],(err, data) => {
+                                            con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, length, '0' , 'NOTANOPTION', type],(err, data) => {
                                                 if (err) throw err;
                                             });
                                         }
@@ -113,7 +113,10 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                 }
                             });
                             options = options.replace("?", "");
-                            con1.query(`CREATE TABLE students${id} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
+                            con1.query(`CREATE TABLE ${ac+id} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
+                                if (err) throw err;
+                            });
+                            con1.query(`CREATE TABLE ${st+id} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
                                 if (err) throw err;
                             });
                         });
