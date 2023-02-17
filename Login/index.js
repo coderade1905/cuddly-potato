@@ -17,7 +17,6 @@ module.exports =  (app, express, con, con1, crypto, bp, encrypt) => {
         if (data.length > 0)
         {
             id = data[0].Id;
-            console.log(id, PN, PA);
             schoolname = data[0].school_name;
             const query = `SELECT * FROM astudents${id} WHERE PhoneNumber=? AND Password=?`
             con1.query(query, [PN, PA] ,(err, data) => {

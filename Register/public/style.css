@@ -54,7 +54,6 @@ html, body {
 
 .ic {
   width: 5%;
-  min-width: -webkit-fit-content;
   min-width: -moz-fit-content;
   min-width: fit-content;
   height: 46px;

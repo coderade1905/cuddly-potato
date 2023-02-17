@@ -25,7 +25,7 @@ function load(ur) {
         }
     })
 }
-function viewdeatil(id)
+function viewdetail(id)
     { 
         $("#fdec").empty();
         for (const [key, value] of Object.entries(detail[id])) {
@@ -39,7 +39,7 @@ $(document).on('click', '.vd', function() {
     $("#fdec").css("margin-top", "0px");
     $("#Modal").show();
     $("#fdec").html("");
-    viewdeatil(num);
+    viewdetail(num);
     });
 $(document).on('click', '.dc', function() {
     num = $(this).data("sid");
@@ -55,7 +55,7 @@ $(document).on('click', '.dbs', function() {
         $.ajax({
             url: "/accept",
             type: "POST",
-            data: {email : email, sid : num},
+            data: {email : email, sid : num, url : url},
             dataType: 'JSON',
             success: function(response)
             {
@@ -71,7 +71,7 @@ $(document).on('click', '.dbs', function() {
         $.ajax({
             url: "/deny",
             type: "POST",
-            data: {email : email, sid : num},
+            data: {email : email, sid : num, url : url},
             dataType: 'JSON',
             success: function(response)
             {

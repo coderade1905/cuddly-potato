@@ -117,9 +117,9 @@ function cho(cho)
                         data: {type : "s", otherChoices : dict, pn : getCookie("school-email"), pass : getCookie("school-pass"), type : cho},
                         dataType: 'JSON',
                         success: function(response){
-                            if (response.status != 200)
+                            if (response.status == 401 || response.status == 200)
                             {
-                                window.location.href = res.red;
+                                window.location.href = response.red;
                             }
                         },
                         error: function(){

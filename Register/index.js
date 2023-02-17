@@ -11,14 +11,26 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
         let fn = req.body.FN;
         let pass = req.body.Pass;
         let cpass = req.body.CPass;
+        let gender = req.body.Gender;
+        let cla = req.body.Class;
+        console.log(cla);
         let PA = crypto.createHash('md5').update(pass).digest('hex');
         let id = req.body.id;
         let values = req.body.values;
         let fields = req.body.fields;
         let rfields = [];
-        fields.forEach(field => {
-            rfields.push(field.Name.replace(" ", "_"));
-        });
+        console.log(typeof(fields));
+        if (fields != undefined)
+        {
+            fields.forEach(field => {
+                rfields.push(field.Name.split(" ").join("_"));
+            });
+        }
+        else{
+            rfields = [];
+            fields = [];
+            values = [];
+        }
         if (rfields.length == values.length)
         {
             if (pass == cpass)
@@ -40,11 +52,21 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
                                     res.json({status : 400, message : "Phonenumber already exists."})
                                 }
                                 else {
-                                    con1.query(`INSERT INTO students${id} (Fullname, PhoneNumber, Password, ??) VALUES (?, ?, ?, ?)`,[rfields, fn, phone, PA, values],(err, data) => 
+                                    if (rfields.length > 0)
                                     {
-                                        if (err) throw err;
-                                        res.json({status : 200, red : "/login"});
-                                    });
+                                        con1.query(`INSERT INTO students${id} (Fullname, PhoneNumber, Password, Gender, Class, Status, ??) VALUES (?, ?, ?, ?, ?, ?, ?)`,[rfields, fn, phone, PA, gender, cla, "W", values],(err, data) => 
+                                            {
+                                                if (err) throw err;
+                                                res.json({status : 200, red : "/login"});
+                                            });
+                                    }
+                                    else{
+                                        con1.query(`INSERT INTO students${id} (Fullname, PhoneNumber, Password, Gender, Class, Status) VALUES (?, ?, ?, ?, ? ,?)`,[fn, phone, PA, gender, cla, "W"],(err, data) => 
+                                            {
+                                                if (err) throw err;
+                                                res.json({status : 200, red : "/login"});
+                                            });
+                                    }
                                 }
                             })
                         }

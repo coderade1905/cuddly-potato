@@ -2,6 +2,20 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
     app.use(bp.json());
     app.use("/school-home/public", express.static(__dirname + "/public"));
     app.use(bp.urlencoded({ extended: true }));
+    app.post('/count', async (req, res) => {
+        if (req.body.type == "Gender"){
+            con1.query(`SELECT COUNT(Gender) As Gen FROM astudents${decrypt(req.body.id)} WHERE Gender='male'`, (err, data) => {
+                con1.query(`SELECT COUNT(Gender) As Gen FROM astudents${decrypt(req.body.id)} WHERE Gender='female'`, (err1, data1) => {
+                    res.json({Male : data[0].Gen,Female : data1[0].Gen});
+                });
+            });
+        }
+        else{
+            con1.query(`SELECT Class,COUNT(*) As Cla FROM astudents${decrypt(req.body.id)}  GROUP BY Class;'`, (err, data) => {
+                res.json({data : data[0]});
+            });
+        }
+    })
     app.route('/school-home').get((req, res) => {
         res.sendFile(__dirname + '/public/index.html');
         }).post();
@@ -13,7 +27,6 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
             let type = req.body.type;
             let ac = "";
             let st = "";
-            let sc = "";
             if (req.body.pn != "" && req.body.pass != "" && type != "")
             {
                 if (type == "s"){
@@ -49,11 +62,11 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                         var id = data[0].id;
                         con1.query(`SELECT * FROM schema${id} WHERE t = '${type}'`, (err, data) => {
                             if (err) {
-                                throw err
+                                throw err;
                             }
                             if (data.length > 0)
                             {
-                                con1.query(`DROP TABLE ${ac+id}`, (err, data) => {
+                                con1.query(`DROP TABLE ${st+id}`, (err, data) => {
                                     if (err) {throw err}
                                 });
                                 con1.query(`DELETE FROM schema${id} WHERE t = '${type}'`, (err, data) => {
@@ -85,7 +98,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                                     max = element.length;
                                                 }
                                             });
-                                            options += `, ${fieldName.replace(" ", "_")} ${reference[fieldType]}(${max}) NOT NULL`;
+                                            options += `, ${fieldName.split(" ").join("_")} ${reference[fieldType]}(${max}) NOT NULL`;
                                             con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, max, '1' ,options1, type], (err, data) => {
                                                 if (err) throw err;
                                             });
@@ -104,7 +117,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                             if (!Number.isInteger(length)) {
                                                 res.json({message : "Length must be integer!",status : 400})
                                             }
-                                            options += `, ${fieldName.replace(" ", "_")} ${reference[fieldType]}(${length}) NOT NULL`;
+                                            options += `, ${fieldName.split(" ").join("_")} ${reference[fieldType]}(${length}) NOT NULL`;
                                             con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, length, '0' , 'NOTANOPTION', type],(err, data) => {
                                                 if (err) throw err;
                                             });
@@ -112,11 +125,9 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                     }
                                 }
                             });
-                            options = options.replace("?", "");
-                            con1.query(`CREATE TABLE ${ac+id} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
-                                if (err) throw err;
-                            });
-                            con1.query(`CREATE TABLE ${st+id} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
+                            options = options.split("?").join("");
+                            console.log(`CREATE TABLE ${st+id} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL, Status  varchar(1) NOT NULL, Gender varchar(6) NOT NULL, Class varchar(50) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
+                            con1.query(`CREATE TABLE ${st+id} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL, Status  varchar(1) NOT NULL, Gender varchar(6) NOT NULL, Class varchar(50) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
                                 if (err) throw err;
                             });
                         });

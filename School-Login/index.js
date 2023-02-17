@@ -3,7 +3,7 @@ module.exports =  (app, express, con, crypto, bp, encrypt) => {
     app.route('/school-login').get((req, res) => {
         res.sendFile(__dirname + '/public/index.html');
     }).post((req, res) => {
-        const Email= req.body.email;
+        const Email = req.body.email;
         const PA1 = req.body.Pass;
         const PA = crypto.createHash('md5').update(PA1).digest('hex');
         if (!Email || !PA1) {
@@ -17,7 +17,7 @@ module.exports =  (app, express, con, crypto, bp, encrypt) => {
                         }
                         if(data.length == 1)
                         {
-                            res.json({SSN : data[0].school_name, Email : encrypt(data[0].email), Pass: encrypt(data[0].password), red : "/school-home", status : 200});
+                            res.json({SCID : encrypt(data[0].Id+ ""), SSN : data[0].school_name, Email : encrypt(data[0].email), Pass: encrypt(data[0].password), red : "/school-home", status : 200});
                         }
                         else{
                             res.json({message : 'Incorrect email or password', status : 401});

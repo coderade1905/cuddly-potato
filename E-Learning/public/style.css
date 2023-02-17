@@ -1,0 +1,146 @@
+@font-face {
+  font-family: "ethiopic_dire_dawaregular";
+  src: url("/Font/dire_dawa-webfont.woff2") format("woff2");
+  src: url("/Font/dire_dawa-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+.upload-wrap {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.upload-wrap form {
+  text-align: center;
+  width: 40%;
+}
+
+.upload-wrap input, textarea {
+  border-radius: 15px;
+  outline: none;
+  height: 30px;
+  border: none;
+  width: 90%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.upload-wrap textarea {
+  height: auto;
+  resize: none;
+}
+
+@media screen and (max-width: 873px) {
+  .upload-wrap form {
+    width: 90%;
+  }
+}
+.tbar {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  border-bottom: 1px solid #000;
+  height: 40px;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid #000;
+}
+
+.search input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-bottom: 1px #000 solid;
+  border-top: 1px #000 solid;
+  border-left: 1px #000 solid;
+  border-right: none;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0);
+  text-align: center;
+  padding: 8px 60px;
+}
+
+.search button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom: 1px #000 solid;
+  border-top: 1px #000 solid;
+  border-right: 1px #000 solid;
+  border-left: none;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0);
+  text-align: center;
+  padding: 8px 20px;
+}
+
+.cont {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.ccont {
+  width: 340px;
+  height: 270px;
+  margin: 3%;
+}
+
+.ccontm {
+  width: 100%;
+  height: 70%;
+  background-color: #3f3f3f;
+  border-radius: 15px;
+}
+
+.ccontf {
+  width: 100%;
+  height: 30%;
+}
+
+.ccontf h4 {
+  margin-left: 20px;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: "ethiopic_dire_dawaregular";
+}
+
+.ccontf p {
+  margin-left: 20px;
+  font-size: 20px;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: "ethiopic_dire_dawaregular";
+}
+
+@media screen and (max-width: 366px) {
+  .ccont {
+    width: 90%;
+  }
+}
+.mainz1 {
+  display: none;
+  height: 96%;
+  width: 90%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
+  overflow-y: auto;
+}
+
+.imgap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 85%;
+}/*# sourceMappingURL=style.css.map */

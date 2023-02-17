@@ -1,13 +1,16 @@
 $(document).ready(function(){
+            var modal = document.getElementById("Modal");
             window.onclick = function(event) {
             var cicho = document.getElementById("city-cho");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-                cicho.style.display = "none";
-                $("#City").css("border-bottom-left-radius", "20px");
-                $("#City").css("border-bottom-right-radius", "20px");
-                $("#City").css("border-bottom", "2px solid #777");
+            $("#City").focusout(function() {
+                $("#city-cho").mouseup(function ()
+                {
+                    cicho.style.display = "none";
+                    $("#City").css("border-bottom-left-radius", "20px");
+                    $("#City").css("border-bottom-right-radius", "20px");
+                    $("#City").css("border-bottom", "2px solid #777");
+                })
+            });  
             }
         $("#city-cho").hide();
         $("#ic").click(function() {
@@ -103,13 +106,13 @@ $(document).ready(function(){
                     $("#strong").css("color", "red");
                     $("#strong").text(response.message);
                 }
-                $("#email-btn").text("Verify sss");
+                $("#email-btn").text("Verify");
             },
             error: function(xhr, status, error) {
                 $("#strong").css("color", "red");
                 $("#strong").text("Something went wrong!");
                 console.log(xhr, ststus, error);
-                $("#email-btn").text("Verify uuu");
+                $("#email-btn").text("Verify");
             }
         });
     })

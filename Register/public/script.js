@@ -64,15 +64,6 @@ $(document).ready(function(){
                 }
             });
             });
-        $("#ic").click(function() {
-            if ($("#pa").attr('type') == 'password')
-            {
-            $("#pa").attr('type', 'text');
-            }
-            else {
-                $("#pa").attr('type', 'password');
-            }
-        });
         $("#sign-up").submit(function(e) {
             e.preventDefault();
             $("#sub").text("Next ...");
@@ -83,7 +74,7 @@ $(document).ready(function(){
                     $.ajax({
                         url: '/school-req',
                         type: 'POST',
-                        data: {email : email, e : "n"},
+                        data: {email : email, e : "n", type : "s"},
                         dataType: 'JSON',
                         success: function(response)
                         {
@@ -91,8 +82,30 @@ $(document).ready(function(){
                             $("#wrap").empty();
                             $("#wrap").append('<input type="text" name="FN" class="na mar" placeholder="Full Name" required autocomplete="off" maxlength="20"><br>');
                             $("#wrap").append("<input type='text' name='PhoneNumber' id='PhoneNumber' class='na mar' placeholder='Phone Number e.x (+12124567890)' required autocomplete='off' maxlength='20'><br>");
-                            $("#wrap").append('<input type="password" name="Password"  class="pa mar" placeholder="Password" required autocomplete="off"  maxlength="100"><button type="button" class="ic" id="ic"><i class="bi bi-eye"></i></button><br>');
-                            $("#wrap").append('<input type="password" name="C-Password"  class="pa mar" placeholder="Confirm Password" required autocomplete="off"  maxlength="100"><button type="button" class="ic" id="icc"><i class="bi bi-eye"></i></button><br></br>');
+                            $("#wrap").append('<input type="password" name="Password" id="pa"  class="pa mar" placeholder="Password" required autocomplete="off"  maxlength="100"><button type="button" class="ic" id="ic"><i class="bi bi-eye"></i></button><br>');
+                            $("#wrap").append('<input type="password" name="C-Password"  id="cpa" class="pa mar" placeholder="Confirm Password" required autocomplete="off"  maxlength="100"><button type="button" class="ic" id="icc"><i class="bi bi-eye"></i></button><br></br>');
+                            $("#wrap").append("<input type='radio' name='gender' value='male' required><span class='gend'>male</span>");
+                            $("#wrap").append("<input type='radio' name='gender' value='female' required><span class='gend'>female</span><br>");
+                            $("#wrap").append("<select class='na mar' name='cla' required><option value='9'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option></select>");
+                            $("#ic").click(function() {
+                            if ($("#pa").attr('type') == 'password')
+                                {
+                                $("#pa").attr('type', 'text');
+                                }
+                                else {
+                                    $("#pa").attr('type', 'password');
+                                }
+                            });
+                            $("#icc").click(function() {
+                                if ($("#cpa").attr('type') == 'password')
+                                {
+                                $("#cpa").attr('type', 'text');
+                                }
+                                else {
+                                    $("#cpa").attr('type', 'password');
+                                }
+                            });
+                            var options;
                             var options;
                             var options1;
                             var max;
@@ -111,7 +124,7 @@ $(document).ready(function(){
                                     else{
                                         max = "maxlength"
                                     }
-                                    $("#wrap").append("<input type='"+response["data"][i].Field_Type+"' autocomplete='off' class='na mar' required "+max+"='"+response["data"][i].Length+"' placeholder='"+response["data"][i].Field_Name+"' name='"+response["data"][i].Field_Name.replace(" ", "_")+"'><br>");
+                                    $("#wrap").append("<input type='"+response["data"][i].Field_Type+"' autocomplete='off' class='na mar' required "+max+"='"+response["data"][i].Length+"' placeholder='"+response["data"][i].Field_Name+"' name='"+response["data"][i].Field_Name.split(" ").join("_")+"'><br>");
                                 }
                                 else{
                                     if (response["data"][i].Field_Type == "select")
@@ -121,20 +134,20 @@ $(document).ready(function(){
                                         {
                                             options1 += "<option value='"+options[j]+"'>"+options[j]+"</options>";
                                         }
-                                        $("#wrap").append("<select class='na mar' required name='"+response["data"][i].Field_Name.replace(" ", "_")+"'><option selected hidden disabled>"+response["data"][i].Field_Name+"</option>"+options1+"</select><br>");
+                                        $("#wrap").append("<select class='na mar' required name='"+response["data"][i].Field_Name.split(" ").join("_")+"'><option selected hidden disabled>"+response["data"][i].Field_Name+"</option>"+options1+"</select><br>");
                                     }
                                     else if (response["data"][i].Field_Type == "radio")
                                     {
                                         options = response["data"][i].options.split(",");
-                                        $("#wrap").append("<label for='"+response["data"][i].Field_Name.replace(" ", "_")+"'>"+response["data"][i].Field_Name+" : </label>")
+                                        $("#wrap").append("<label for='"+response["data"][i].Field_Name.split(" ").join("_")+"'>"+response["data"][i].Field_Name+" : </label>")
                                         for (var j = 0; j < options.length; j++)
                                         {
                                             if (j == 0)
                                             {
-                                                $("#wrap").append("<input type='"+response["data"][i].Field_Type+"' name='"+response["data"][i].Field_Name.replace(" ", "_")+"' value='"+options[j]+"' required><span class='gend'>"+options[j]+"</span>");
+                                                $("#wrap").append("<input type='"+response["data"][i].Field_Type+"' name='"+response["data"][i].Field_Name.split(" ").join("_")+"' value='"+options[j]+"' required><span class='gend'>"+options[j]+"</span>");
                                             }
                                             else{
-                                                $("#wrap").append("<input type='"+response["data"][i].Field_Type+"' name='"+response["data"][i].Field_Name.replace(" ", "_")+"' value='"+options[j]+"'><span class='gend'>"+options[j]+"</span>");
+                                                $("#wrap").append("<input type='"+response["data"][i].Field_Type+"' name='"+response["data"][i].Field_Name.split(" ").join("_")+"' value='"+options[j]+"'><span class='gend'>"+options[j]+"</span>");
                                             }
                                         }
                                         $("#wrap").append("<br>");
@@ -182,18 +195,18 @@ $(document).ready(function(){
             {
                 if (fields[i].Type == "select")
                 {
-                    values.push($("[name="+fields[i].Name.replace(" ", "_")+"] option:selected").text());
+                    values.push($("[name="+fields[i].Name.split(" ").join("_")+"] option:selected").text());
                 }
                 else
                 {
-                    values.push($("input[name="+fields[i].Name.replace(" ", "_")+"]").val());
+                    values.push($("input[name="+fields[i].Name.split(" ").join("_")+"]").val());
                 }
             }
             $.ajax({
                 url: "/verify-sms-otp",
                 method : "POST",
                 dataType : "JSON",
-                data : {FN : $("input[name=FN]").val(), phone : $("input[name=PhoneNumber]").val(), Pass : $("input[name=Password]").val(), CPass : $("input[name=C-Password]").val(), otp : otp, fields : fields, values : values, id : school_id},
+                data : {FN : $("input[name=FN]").val(), phone : $("input[name=PhoneNumber]").val(), Pass : $("input[name=Password]").val(), CPass : $("input[name=C-Password]").val(), Pass : $("input[name=Password]").val(), Gender : $("input[name='gender']:checked").val(), Class : $("select[name=cla] option:selected").text(),otp : otp, fields : fields, values : values, id : school_id},
                 success: function(response)
                 {
                     if (response.status == 200)
