@@ -15,8 +15,8 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) =>
             } catch (error) {
                 return res.json({red: '/login', status : 400});
             }
-            query = `SELECT * FROM students${sid} WHERE PhoneNumber = ? AND Password = ?`;
-            con1.query(query, [pn, pass] ,(err, data) => {
+            query = `SELECT * FROM astudents WHERE PhoneNumber = ? AND Password = ? AND School_id = ? `;
+            con1.query(query, [pn, pass, decrypt(sid)] ,(err, data) => {
                 if (err) {
                     throw err;
                 }

@@ -18,6 +18,12 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
         let id = req.body.id;
         let values = req.body.values;
         let fields = req.body.fields;
+        values.forEach(value => {
+            value.split('?').join('');
+        });
+        fields.forEach(field => {
+            field['Name'] = field['Name'].split('?').join('');
+        });
         let rfields = [];
         console.log(typeof(fields));
         if (fields != undefined)
@@ -54,7 +60,7 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
                                 else {
                                     if (rfields.length > 0)
                                     {
-                                        con1.query(`INSERT INTO students${id} (Fullname, PhoneNumber, Password, Gender, Class, Status, ??) VALUES (?, ?, ?, ?, ?, ?, ?)`,[rfields, fn, phone, PA, gender, cla, "W", values],(err, data) => 
+                                        con1.query(`INSERT INTO students${id} (Fullname, PhoneNumber, Password, Gender, Class, Status, School_id, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,[rfields, fn, phone, PA, gender, cla, "W", id, values],(err, data) => 
                                             {
                                                 if (err) throw err;
                                                 res.json({status : 200, red : "/login"});

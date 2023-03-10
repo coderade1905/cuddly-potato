@@ -4,10 +4,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../Navstyle/navstyle.css">
     <link rel="stylesheet" href="/home/public/homestyle.css">
     <link rel="stylesheet" href="/school-home/public/school-home.css">
     <link rel="stylesheet" href="/lm/public/style.css">
+    <link rel="stylesheet" href="/commoncss/public/modal.css">
     <script src="/jquery.min.js"></script>
     <script src="../Navstyle/nav.js"></script>
     <script src="/cookie-validate/validate.js"></script>
@@ -35,19 +37,22 @@
                 $.ajax({
                     url: '/learn',
                     type: 'POST',
-                    data: {q : ""},
+                    data: {q : "", t : ""},
                     dataType: 'JSON',
                     success: function(response) {
                         for(i = 0; i < response.data.length; i++)
                         {
                             let d = new Date(response.data[i].Date);
+                            d = d.toDateString();
                             $("#cont").append(`
-                            <div class="ccont" onClick=Open("${response.data[i].Link}")>
-                                <div class="ccontm"></div>
+                            <div class="ccont">
+                                <div class="ccontm" onClick="Open('${response.data[i].Link}', '${response.data[i].Type}')">
+                                    <img src="/uploads/thumb/${response.data[i].Thumb}" width="100%" height="100%" >
+                                    </div>
                                 <div class="ccontf">
                                     <h4>${unescape(response.data[i].Title)}</h4>
-                                    <p>Date: ${d.toDateString()}</p>
-                                    <p>Si Academy</p>
+                                    <p>Date: ${d}</p>
+                                    <div style='display: flex; justify-content: space-between;'><p>Si Academy</p> <div><a href="/uploads/${response.data[i].Link}" download><span class="material-symbols-outlined">download</span></a><span onclick="Modal('${response.data[i].Title}','${response.data[i].Description}', '${d}', '${response.data[i].Type}')" class="material-symbols-outlined">info</span></div></div>
                                 </div>
                             </div>`)
                         }
@@ -56,12 +61,74 @@
                         
                     }
                 });
+                $("#search").submit(
+                    function (e) {
+                        e.preventDefault();
+                        $("#cont").empty();
+                        $.ajax({
+                            url: '/learn',
+                            type: 'POST',
+                            data: {q : $("#searchinp").val(), t : $("#type").find(":selected").val()},
+                            dataType: 'JSON',
+                            success: function(response) {
+                                for(i = 0; i < response.data.length; i++)
+                                {
+                                    let d = new Date(response.data[i].Date);
+                                    d = d.toDateString();
+                                    $("#cont").append(`
+                                    <div class="ccont">
+                                        <div class="ccontm" onClick="Open('${response.data[i].Link}', '${response.data[i].Type}')">
+                                            <img src="/uploads/thumb/${response.data[i].Thumb}" width="100%" height="100%" >
+                                            </div>
+                                        <div class="ccontf">
+                                            <h4>${unescape(response.data[i].Title)}</h4>
+                                            <p>Date: ${d}</p>
+                                            <div style='display: flex; justify-content: space-between;'><p>Si Academy</p> <div><a href="/uploads/${response.data[i].Link}" download><span class="material-symbols-outlined">download</span></a><span onclick="Modal('${response.data[i].Title}','${response.data[i].Description}', '${d}', '${response.data[i].Type}')" class="material-symbols-outlined">info</span></div></div>
+                                        </div>
+                                    </div>`)
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                
+                            }
+                        });
+                    }
+                );
+                $(".tbar").change(
+                    function ()
+                    {
+                        $("#cont").empty();
+                        $.ajax({
+                            url: '/learn',
+                            type: 'POST',
+                            data: {q : $("#searchinp").val(), t : $("#type").find(":selected").val()},
+                            dataType: 'JSON',
+                            success: function(response) {
+                                for(i = 0; i < response.data.length; i++)
+                                {
+                                    let d = new Date(response.data[i].Date);
+                                    d = d.toDateString();
+                                    $("#cont").append(`
+                                    <div class="ccont">
+                                        <div class="ccontm" onClick="Open('${response.data[i].Link}', '${response.data[i].Type}')">
+                                            <img src="/uploads/thumb/${response.data[i].Thumb}" width="100%" height="100%" >
+                                            </div>
+                                        <div class="ccontf">
+                                            <h4>${unescape(response.data[i].Title)}</h4>
+                                            <p>Date: ${d}</p>
+                                            <div style='display: flex; justify-content: space-between;'><p>Si Academy</p> <div><a href="/uploads/${response.data[i].Link}" download><span class="material-symbols-outlined">download</span></a><span onclick="Modal('${response.data[i].Title}','${response.data[i].Description}', '${d}', '${response.data[i].Type}')" class="material-symbols-outlined">info</span></div></div>
+                                        </div>
+                                    </div>`)
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                
+                            }
+                        });
+                    }
+                );
             }
         );
-        $(".ccont").click(function () {
-            alert(1);
-            alert($(this).attr("data-link"));
-        });
         validate("student");
     </script>
     <div class="fullnav" id="nav">
@@ -96,17 +163,18 @@
                     <select class="sel" name="" id="">
                         <option value="" disabled selected hidden>Class</option>
                         <option value="">All Classes</option>
-
                     </select>
                 </div>
                 <div class="tbar">
-                    <select class="sel" name="" id="">
+                    <select class="sel" name="" id="type">
                         <option value="" disabled selected hidden>Type</option>
-                        <option value="">Video</option>
-                        <option value="">Pdf</option>
-                        <option value="">Word Documents</option>
-                        <option value="">Powerpoint Presentations</option>
-                        <option value="">Others</option>
+                        <option value="">All Types</option>
+                        <option value="video">Video</option>
+                        <option value=".pdf">Pdf</option>
+                        <option value="pic">Pictures</option>
+                        <option value=".docx">Word Documents</option>
+                        <option value=".pptx">Powerpoint Presentations</option>
+                        <option value="others">Others</option>
                     </select>
                 </div>
                 <div class="tbar">
@@ -119,25 +187,47 @@
                     </select>
                 </div>
     </div> 
-    <div class="search">
-        <input type="text" placeholder="Search">
-        <button>
-            <span class="material-symbols-rounded">
-            search
-            </span>
-        </button>
-    </div>
+    <form action="" id="search">
+        <div class="search">
+            <input autocomplete="off" type="text" placeholder="Search" id="searchinp" value="">
+            <button type="submit">
+                <span class="material-symbols-rounded">
+                search
+                </span>
+            </button>
+        </div>
+    </form>
     <div class="cont" id="cont">
 
     </div>
         </div>
     </div>
+    <div id="Modal" class="modal">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-head">
+            <span class="close1" onclick="$('#Modal').hide()">&times;</span>
+            </div>
+            <div class="modal-main">
+            <p style="text-align: center; margin-top: 10%;" id="title">Title : </p>
+            <p style="text-align: center;" id="desc">Description : </p>
+            <p style="text-align: center;" id="date">Date : </p>
+            <p style="text-align: center;" id="type1">Type : </p>
+        </div>
+            </div>
+    </div>
+        </div>
 </body>
 <script>
-function Open(link){
-    $("#main0").css('display', 'none');
-    $("#mainz1").css('display', 'block');
-    $("#mainz1").append(`<div class='imgap'><video style='background-color: #000;' controls src='/uploads/${link}' width='70%' height='90%'></video></div>`)
+function Open(link, type){
+    window.location = '/uploads/' + link
+}
+function Modal(title, desc, date, type)
+{
+    $("#Modal").css('display', 'block');
+    $("#title").text("Title : " + unescape(title));
+    $("#desc").text("Description : " + unescape(desc));
+    $("#date").text("Date : " + date);
+    $("#type1").text("Type : " + type);
 }
 </script>
 </html>

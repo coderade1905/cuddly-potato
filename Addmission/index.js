@@ -89,7 +89,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                         if (err) throw err;
                         if (data.length > 0)
                         {
-                            con1.query(`INSERT INTO ${ty1+id} SELECT Student_id, Fullname, Password, PhoneNumber, Gender, Class FROM ${ty+id} WHERE Student_id='${sid}';`, (err, data) => {
+                            con1.query(`INSERT INTO ${ty1} SELECT Student_id, Fullname, Password, PhoneNumber, Gender, Class, School_id FROM ${ty+id} WHERE Student_id='${sid}';`, (err, data) => {
                                 if (err) throw err;
                                 con1.query(`UPDATE ${ty+id} SET Status = "A" WHERE Student_id='${sid}'`, (err, data) => {
                                     if (err) throw err;

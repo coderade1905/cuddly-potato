@@ -18,14 +18,14 @@ module.exports =  (app, express, con, con1, crypto, bp, encrypt) => {
         {
             id = data[0].Id;
             schoolname = data[0].school_name;
-            const query = `SELECT * FROM astudents${id} WHERE PhoneNumber=? AND Password=?`
-            con1.query(query, [PN, PA] ,(err, data) => {
+            const query = `SELECT * FROM astudents WHERE PhoneNumber=? AND Password=? AND School_id=?`
+            con1.query(query, [PN, PA, id] ,(err, data) => {
                 if (err) {
                     throw err;
                 }
                 if(data.length == 1)
                 {
-                    res.json({PN : encrypt(data[0].PhoneNumber), User : encrypt(data[0].Fullname), FN : data[0].Fullname, SN : schoolname, Pass : encrypt(data[0].Password), Sid : id, red : "http://localhost:3030/home/", status : 200});
+                    res.json({PN : encrypt(data[0].PhoneNumber), User : encrypt(data[0].Fullname), FN : data[0].Fullname, SN : schoolname, Pass : encrypt(data[0].Password), Stid : encrypt("" + data[0].Student_id),Sid : encrypt("" + id), red : "http://localhost:3030/home/", status : 200});
                 }
                 else{
                     res.json({message : 'Incorrect phone_number or password', status : 401});

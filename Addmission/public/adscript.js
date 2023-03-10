@@ -9,7 +9,6 @@ $("#snay").text(getCookie("SSN") + " "+ year);
 function load(ur) {
     url = ur;
     $("#mainn").empty();
-    $("#Modal").hide();
     $.ajax({
         url: url,
         type: "POST",

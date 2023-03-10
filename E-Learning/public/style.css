@@ -48,6 +48,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  height: 63px;
   border-bottom: 1px solid #000;
 }
 
@@ -85,19 +86,25 @@
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row-gap: calc(10px + 10%);
+  margin-top: 40px;
+  justify-items: center;
 }
 
 .ccont {
   width: 340px;
   height: 270px;
-  margin: 3%;
 }
 
 .ccontm {
   width: 100%;
   height: 70%;
   background-color: #3f3f3f;
+  border-radius: 15px;
+}
+
+.ccontm img {
   border-radius: 15px;
 }
 
@@ -123,9 +130,46 @@
   font-family: "ethiopic_dire_dawaregular";
 }
 
-@media screen and (max-width: 366px) {
+span {
+  cursor: pointer;
+}
+
+.ccontf span {
+  cursor: pointer;
+  margin-right: 20px;
+  font-size: 25px;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+  .cont {
+    grid-template-columns: auto;
+  }
   .ccont {
-    width: 90%;
+    width: 340px;
+    height: 270px;
+  }
+}
+@media screen and (max-width: 1168px) {
+  .ccont {
+    width: 290px;
+    height: 220px;
+  }
+}
+@media screen and (max-width: 416px) {
+  .search input {
+    width: 80%;
+  }
+  .upload-wrap {
+    display: grid;
+  }
+}
+@media screen and (max-width: 640px) {
+  .upload-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 }
 .mainz1 {
@@ -142,5 +186,11 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 85%;
+  height: 100%;
+}
+
+.modal-content p {
+  font-family: "ethiopic_dire_dawaregular";
+  font-size: 27px;
+  font-style: italic;
 }/*# sourceMappingURL=style.css.map */

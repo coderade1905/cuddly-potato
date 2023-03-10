@@ -23,6 +23,7 @@
             function ()
             {
                 $("#snay").text(getCookie("SSN") + " "+ year);
+                $("#sid").val(getCookie("SCID"));
             });
     </script>
     <div class="fullnav" id="nav">
@@ -56,6 +57,8 @@
                 <input type="text" name="title" placeholder="Title"><br>
                 <textarea name="desc" id="" cols="30" rows="10" placeholder="Description"></textarea><br>
                 <input type="file" name="sampleFile" /><br>
+                <input type="file" name="Thumb" accept=".png, .jpg, .jpeg"/><br>
+                <input type="hidden" id="sid" name="id" value="">
                 <input type='submit' value='Upload!' />
         </form> 
     </div>   

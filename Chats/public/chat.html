@@ -6,11 +6,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,0" />
     <meta name="description" content="Chat Room For Skul">
     <link rel="stylesheet" href="../Navstyle/navstyle.css">
+    <link rel="stylesheet" href="/commoncss/public/modal.css">
     <link rel="stylesheet" href="/chat/public/chatstyle.css">
+    <link rel="stylesheet" href="/lm/public/style.css">
     <script src="/jquery.min.js"></script>
     <script src="../Navstyle/nav.js"></script>
+    <script src="/cookie-validate/validate.js"></script>
+    <script src="/cookie-validate/getcookie.js"></script>
     <title>Inbox</title>
-    <script src="\node_modules\socket.io\client-dist\socket.io.js"></script>
+    <script src="\socket.io\socket.io.js"></script>
 </head>
 <body>
     <style>
@@ -24,27 +28,99 @@
         </style>
     <noscript>Please enable javascript!!</noscript>
     <script>
-        // cookie validation
-    </script>
-    <script>
+        validate("student");
+        var socket = io();
+        var id3 = "";
+        var id4 = "";
+        var chatid = "";
         $(document).ready(
-
             function ()
             {
-                var socket = io();
+            $('#senddiv').css('pointer-events', 'none');
+            $('#head').css('pointer-events', 'none');
+            $.ajax({
+                url: '/getchats',
+                type: 'POST',
+                data: {me : getCookie('STID')+","+getCookie('sid')},
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.stat == 0)
+                    {
+                        $("#side").append(`
+                            <div class="proprv" onclick="start(this, '${response.Fullname}', '${response.chatid}')">
+                                <div style="position: relative;"><img src="/uploads/f5f39263-40c0-42c8-a013-9766c3122f8f.jpg" alt="profile"><div class="online"></div></div>
+                                <strong class="pname">${response.Fullname}</strong>
+                            </div>
+                        `);
+                    }
+                },
+                error: function(err) {
+
+                }
+                    })
                 socket.on('bmessage', function(message)
                 {
-                    var item = document.createElement('li');
-                    item.textContent = message;
-                    $("#amessage").append(item);
+                    $("#amessage").append(`
+                    <div class="senrecr"><div class="received">${message[0]}</div></div>
+                    `);
                 }
                 );
                 $("#send").click(
-                    function ()
+                    async function ()
                     {
+                        console.log(chatid);
+                        await $.ajax({
+                            url: '/check',
+                            type: 'POST',
+                            data: {chatid : chatid},
+                            dataType: 'JSON',
+                            success: function(response) {
+                                ch = response.len;
+                            },
+                            error: function(err) {
+
+                            }
+                        })
                         var message = $("#mes").val();
-                        socket.emit('message', message);
-                        $("#mes").val("");
+                        if (ch == 0)
+                        {
+                            $.ajax({
+                                url: '/startchat',
+                                type: 'POST',
+                                data: {client1 : id3+","+id4, client2: getCookie('STID')+","+getCookie('sid')},
+                                dataType: 'JSON',
+                                success: function(response) {
+                                    var message = $("#mes").val();
+                                    socket.emit('message', [message, [getCookie("STID"), getCookie("sid")]], response.chatid);
+                                    $("#mes").val("");
+                                    $("#amessage").append(`
+                                    <div class="senrec"><div class="sent">${message}</div></div>
+                                    `);
+                                },
+                                error: function(err) {
+
+                                }
+                            })
+                    }
+                    else
+                    {
+                        $.ajax({
+                                url: '/send',
+                                type: 'POST',
+                                data: {chatid : chatid, fro : getCookie('sid')+","+getCookie('sid'), bd : message},
+                                dataType: 'JSON',
+                                success: function(response) {
+                                    socket.emit('message', [message, [getCookie("STID"), getCookie("sid")]], response.chatid);
+                                    $("#mes").val("");
+                                    $("#amessage").append(`
+                                    <div class="senrec"><div class="sent">${message}</div></div>
+                                    `);
+                                },
+                                error: function(err) {
+
+                                }
+                            })
+                    }
                     }
                 );
                 $("#mes").keypress(function(e){
@@ -52,6 +128,40 @@
                     {
                         $("#send").click();
                     }
+                });
+                $("#newchat").click(
+                    function() {
+                        $("#Modal").css('display', 'block');
+                    }
+                );
+                $("#newchat").click(function() {
+                    $("#Modal").css('display', 'block');
+                });
+                $("#search").submit(function(e) {
+                    $("#suggest").empty();
+                    e.preventDefault();
+                    $.ajax({
+                    url: '/newchat',
+                    type: 'POST',
+                    data: {q : $("#searchinp").val(), sid : getCookie("sid")},
+                    dataType: 'JSON',
+                    success: function(response) {
+                        for(i = 0; i < response.data.length; i++)
+                        {
+                        $("#suggest").append(`
+                        <div class="sugd">
+                        <div class="sugp" onClick="StartChat('${response.data[i].Fullname}','${response.data[i].School_id}','${response.data[i].Student_id}')">
+                            <img src="/uploads/f5f39263-40c0-42c8-a013-9766c3122f8f.jpg" alt="profile">
+                            <h3>${response.data[i].Fullname}</h3>
+                            <p>${response.data[i].Gender == "male" ? "M" : "F"}G${response.data[i].Class}, SI Academy</p>
+                        </div>
+                        </div>`)
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        
+                    }
+                });
                 });
             }
         )
@@ -77,28 +187,81 @@
     </nav>
     <main class="main">
         <div class="main0">
-        <div class="head">
-            <img src="hey" alt="Profile Picture" class="pp">
-            <strong class="pname">Abebe Kebede</strong>
-            <button class="delete"><span class="material-symbols-rounded">
-                delete_forever
-                </span></button>
+        <div class="head" id="head">
+            <img src="/uploads/f5f39263-40c0-42c8-a013-9766c3122f8f.jpg" alt="Profile Picture" class="pp">
+            <strong class="pname" id="pname">Example Name</strong>
+            <div>
+                <button class="delete"><span class="material-symbols-rounded">
+                    call
+                    </span></button>
+                <button class="delete"><span class="material-symbols-rounded">
+                    delete_forever
+                    </span></button>
+            </div>
         </div>
-        <div class="side">
-            <div class="proprv">
-
+        <div class="side" id="side">
+            <div class="newchat">
+                <button id="newchat">New Chat</button>
             </div>
         </div>
         <div class="main1" id="amessage">
-
         </div>
-        <div class="send">
-            <input type="text" id="mes" class="mes" placeholder="Say Something" required>
+        <div class="send" id="senddiv">
+            <input type="text" id="mes" class="mes" autocomplete="off" placeholder="Say Something" required>
             <button class="sendb" id="send"><span class="sendi material-symbols-rounded">
                 send
                 </span></button>
         </div>
         </div>
     </main>
+    <div id="Modal" class="modal">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-head">
+            <span class="close1" onclick="$('#Modal').hide()">&times;</span>
+            </div>
+            <div class="modal-main">
+                <form style="margin: 0;" action="" id="search">
+                    <div class="search">
+                        <input autocomplete="off" type="text" placeholder="Search" id="searchinp" value="">
+                        <button type="submit">
+                            <span class="material-symbols-rounded">
+                            search
+                            </span>
+                        </button>
+                    </div>
+                </form>
+                <div class="suggest" id="suggest">
+                    
+                </div>
+            </div>
+            </div>
+    </div>
 </body>
+<script>
+    function StartChat(name, id1, id2)
+    {
+        $('#senddiv').css('pointer-events', 'all');
+        $('#head').css('pointer-events', 'all');
+        id3 = id1;
+        id4 = id2;
+        $("#Modal").hide();
+        $("#side").append(`
+            <div class="proprv" onclick="$(this).css('background', '#000')">
+                <div style="position: relative;"><img src="/uploads/f5f39263-40c0-42c8-a013-9766c3122f8f.jpg" alt="profile"><div class="online"></div></div>
+                <strong class="pname">${name}</strong>
+            </div>
+        `);
+        $("#pname").text(name);
+    }
+    function start(par, name, chid)
+    {
+        $('#senddiv').css('pointer-events', 'all');
+        $('#head').css('pointer-events', 'all');
+        $('.proprv').css('background', 'rgba(0, 0, 0, 0.5)');
+        $(par).css('background', '#000');
+        $("#pname").text(name);
+        chatid = chid;
+        socket.emit('join', chatid);
+    }
+</script>
 </html>

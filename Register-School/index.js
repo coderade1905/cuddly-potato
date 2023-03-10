@@ -12,23 +12,11 @@ module.exports =  (app, express, con, con1, crypto, bp, mysql) => {
         if (data.length > 0)
         {
         const Sid = data[0].Id;
-        const q = `CREATE TABLE chat${Sid} (Msg_Id int(11) NOT NULL, Fro int(10) NOT NULL, T int(10) NOT NULL, Body varchar(1000) NOT NULL, Status int(1) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                    CREATE TABLE chats${Sid} (Sender int(1) NOT NULL,Receiver int(1) NOT NULL,Chat_Id int(11) NOT NULL,ChatDate timestamp(6) NOT NULL DEFAULT current_timestamp(6)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                    CREATE TABLE news${Sid} (Id int(10) NOT NULL,Title varchar(40) NOT NULL,Main varchar(1000) NOT NULL,Date timestamp(6) NOT NULL DEFAULT current_timestamp(6)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        const q = `CREATE TABLE news${Sid} (Id int(10) NOT NULL,Title varchar(40) NOT NULL,Main varchar(1000) NOT NULL,Date timestamp(6) NOT NULL DEFAULT current_timestamp(6)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
                     CREATE TABLE results${Sid} (Id int(10) NOT NULL,Subject varchar(20) NOT NULL,Result int(10) NOT NULL,Outof int(10) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
                     CREATE TABLE schema${Sid} (Field_Name varchar(20) NOT NULL,Field_Type varchar(10) NOT NULL,Length int(10) NOT NULL,Is_option tinyint(1) NOT NULL, options varchar(100) NOT NULL, t varchar(2) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                    CREATE TABLE astudents${Sid} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL, Gender varchar(6), Class varchar(50) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                    CREATE TABLE students${Sid} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL, Status  varchar(1) NOT NULL, Gender varchar(6) NOT NULL, Class varchar(50) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                    ALTER TABLE chat${Sid}
-                    ADD PRIMARY KEY (Msg_Id);
-                    ALTER TABLE chats${Sid}
-                    ADD PRIMARY KEY (Chat_Id);
                     ALTER TABLE news${Sid}
                     ADD PRIMARY KEY (Id);
-                    ALTER TABLE chat${Sid}
-                    MODIFY Msg_Id int(11) NOT NULL AUTO_INCREMENT;
-                    ALTER TABLE chats${Sid}
-                    MODIFY Chat_Id int(11) NOT NULL AUTO_INCREMENT;
                     ALTER TABLE news${Sid}
                     MODIFY Id int(10) NOT NULL AUTO_INCREMENT;`
         con1.query(q, (err, data) => {

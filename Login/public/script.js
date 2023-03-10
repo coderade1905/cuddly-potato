@@ -75,6 +75,7 @@ $(document).ready(function(){
             d.setTime(d.getTime() + (360*24*60*60*1000));
             var expires = "expires="+ d.toUTCString();
             document.cookie = "sid=" + response.Sid + ";"  + expires + ";path=/;";
+            document.cookie = "STID=" + response.Stid + ";"  + expires + ";path=/;";
             document.cookie = "user=" + response.User + ";"  + expires + ";path=/;";
             document.cookie = "FN=" + response.FN + ";"  + expires + ";path=/;";
             document.cookie = "SN=" + response.SN + ";"  + expires + ";path=/;";

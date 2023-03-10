@@ -3,17 +3,6 @@ var fields = [];
 var values = [];
 var school_id;
 $(document).ready(function(){
-        var modal = document.getElementById("Modal");
-
-        modal.style.display = "none";
-
-
-        var span = document.getElementsByClassName("close")[0];
-
-
-        span.onclick = function() {
-        modal.style.display = "none";
-        }
         $("#city-cho").hide();
         $("#school-name").focusout(function() {
             $("#city-cho").mouseup(function ()
@@ -195,11 +184,11 @@ $(document).ready(function(){
             {
                 if (fields[i].Type == "select")
                 {
-                    values.push($("[name="+fields[i].Name.split(" ").join("_")+"] option:selected").text());
+                    values.push($("[name='"+fields[i].Name.split(" ").join("_")+"'] option:selected").text());
                 }
                 else
                 {
-                    values.push($("input[name="+fields[i].Name.split(" ").join("_")+"]").val());
+                    values.push($("input[name='"+fields[i].Name.split(" ").join("_")+"']").val());
                 }
             }
             $.ajax({
