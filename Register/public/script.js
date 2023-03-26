@@ -195,7 +195,7 @@ $(document).ready(function(){
                 url: "/verify-sms-otp",
                 method : "POST",
                 dataType : "JSON",
-                data : {FN : $("input[name=FN]").val(), phone : $("input[name=PhoneNumber]").val(), Pass : $("input[name=Password]").val(), CPass : $("input[name=C-Password]").val(), Pass : $("input[name=Password]").val(), Gender : $("input[name='gender']:checked").val(), Class : $("select[name=cla] option:selected").text(),otp : otp, fields : fields, values : values, id : school_id},
+                data : {FN : $("input[name=FN]").val(), phone : $("input[name=PhoneNumber]").val(), Pass : $("input[name=Password]").val(), CPass : $("input[name=C-Password]").val(), Pass : $("input[name=Password]").val(), Gender : $("input[name='gender']:checked").val(), Class : $("select[name=cla] option:selected").text(),otp : otp, fields : fields, values : values, id : school_id, type : "s"},
                 success: function(response)
                 {
                     if (response.status == 200)
@@ -203,7 +203,7 @@ $(document).ready(function(){
                         window.location.href = response.red;
                     }
                     else{
-                        modal.style.display = "block";
+                        $("#Modal").css("display", "block");
                         $("#strong1").css("color", "red");
                         $("#strong1").text(response.message);
                     }

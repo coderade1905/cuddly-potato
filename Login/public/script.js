@@ -63,11 +63,12 @@ $(document).ready(function(){
       var PN = $("#Phonenumber").val();
       var Password =  $("#pa").val();
       var Email =  $("#school-name").val();
+      var type = $("#type").val();
       $("#strong").empty();
      $.ajax({
         url: '/login',
         type: 'POST',
-        data: {PhoneNumber: PN, Pass : Password, Email : Email},
+        data: {PhoneNumber: PN, Pass : Password, Email : Email, type : type},
         dataType: 'JSON',
         success: function(response) {
             if (response.status == 200) {

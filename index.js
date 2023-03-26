@@ -56,6 +56,7 @@ const con2 = mysql.createConnection({
     password: process.env.DATABASEPASS,
     database: process.env.DATABASE2,
     port: 3307,
+    charset: 'utf8mb4',
     multipleStatements: true
 })
 con.connect((err) => {if (err) {throw err};}); 
@@ -73,8 +74,9 @@ require('./Cookie-Validate/index.js')(app, express, con, con1, crypto, bp, decry
 require('./Search-School/index.js')(app, express, con, con1, crypto, bp, mysql, decrypt);
 require('./Send-otp/index.js')(app, express, con, con1, bp, nodeMailer, crypto);
 require('./School-home/index.js')(app, express, con, con1, crypto, bp, decrypt, query);
-require('./Addmission/index.js')(app, express, con, con1, crypto, bp, decrypt)
-require('./E-Learning/index.js')(app, express, con, con1, crypto, bp, decrypt)
+require('./Addmission/index.js')(app, express, con, con1, crypto, bp, decrypt);
+require('./E-Learning/index.js')(app, express, con, con1, crypto, bp, decrypt);
+require('./Resulting/index.js')(app, express, con, con1, crypto, bp, encrypt);
 require('./Font/index.js')(app, express);
 
 const port = 3030;

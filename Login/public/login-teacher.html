@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/register/public/style.css">
+    <script src="/jquery.min.js"></script>
+    <title>Login</title>
+</head>
+<body>
+    <div class="sign-up">
+        <div class="main">
+        <h3>Login</h3>
+            <form id="login">
+            <input type="email" name="School-Email" class="na mar cit" id="school-name" placeholder="Your School Email Address" required autocomplete="off" maxlength="20">
+            <center><div class="cit-cho" id="city-cho"></div></center><br>
+            <input type="text" name="PhoneNumber" class="na mar" placeholder="Phone Number" required autocomplete="off" maxlength="20" id="Phonenumber"><br>
+            <input type="password" name="Password"  class="pa mar" placeholder="Password" required autocomplete="off" id="pa" maxlength="100"  id="Password"><button class="ic" id="ic" type="button"><i class="bi bi-eye"></i></button><br>
+            <input type="hidden" id="type" value="t">
+            <strong id="strong1" style="color: red; font-size: 15px;"></strong><br>
+            <button class="cls" id="sub" type="submit">Login</button><br>
+            <strong id="strong" style="color: #fff; font-size: 20px;">New Here?  <a href='/register-teacher'>Register</a></a></strong><br>
+            </form>
+    </div>
+    </div>
+</body>
+<script src="/login/public/script.js"></script>
+</html>

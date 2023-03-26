@@ -25,7 +25,7 @@ module.exports =  (app, express, con, con1, crypto, bp, encrypt) => {
                 }
                 if(data.length == 1)
                 {
-                    res.json({PN : encrypt(data[0].PhoneNumber), User : encrypt(data[0].Fullname), FN : data[0].Fullname, SN : schoolname, Pass : encrypt(data[0].Password), Stid : encrypt("" + data[0].Student_id),Sid : encrypt("" + id), red : "http://localhost:3030/home/", status : 200});
+                    res.json({PN : encrypt(data[0].PhoneNumber), User : encrypt(data[0].Fullname), FN : data[0].Fullname, SN : schoolname, Pass : encrypt(data[0].Password), Stid : encrypt("" + data[0].Student_id),Sid : encrypt("" + id), red : "/home", status : 200});
                 }
                 else{
                     res.json({message : 'Incorrect phone_number or password', status : 401});

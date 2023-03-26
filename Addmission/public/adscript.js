@@ -18,8 +18,15 @@ function load(ur) {
         {
             for (var i = 0; i < response.length; i++)
             {
-                detail[response[i].detail.Student_id] = response[i].detail;
+                if (url == "/admission")
+                {
+                    detail[response[i].detail.Student_id] = response[i].detail;
                 $("#mainn").append("<div class='slist'><h4>"+response[i].firstname+"</h4><button class='vd' data-sid='"+response[i].detail.Student_id+"'>View Detail</button><button class='dc' data-sid='"+response[i].detail.Student_id+"'>Decide</button></div>");
+                }
+                else{
+                    detail[response[i].detail.Teacher_id] = response[i].detail;
+                    $("#mainn").append("<div class='slist'><h4>"+response[i].firstname+"</h4><button class='vd' data-sid='"+response[i].detail.Teacher_id+"'>View Detail</button><button class='dc' data-sid='"+response[i].detail.Teacher_id+"'>Decide</button></div>");
+                }
             }
         }
     })

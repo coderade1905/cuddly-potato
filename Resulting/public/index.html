@@ -1,0 +1,192 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,0" />
+    <link rel="stylesheet" href="../Navstyle/navstyle.css">
+    <link rel="stylesheet" href="/home/public/homestyle.css">
+    <link rel="stylesheet" href="/school-home/public/school-home.css">
+    <link rel="stylesheet" href="/lm/public/style.css">
+    <link rel="stylesheet" href="/commoncss/public/modal.css">
+    <link rel="stylesheet" href="/school-home/public/get-started.css">
+    <link rel="stylesheet" href="/resulting/public/resultstyle.css">
+    <script src="/jquery.min.js"></script>
+    <script src="../Navstyle/nav.js"></script>
+    <script src="/cookie-validate/validate.js"></script>
+    <title>Resulting System</title>
+</head>
+<body>
+    <noscript>Please enable javascript!!</noscript>
+    <script>
+        validate("school");
+        var d = new Date();
+        var year = d.getFullYear();
+        $(document).ready(
+            function ()
+            {
+                $("#snay").text(getCookie("SSN") + " "+ year);
+                $("#sid").val(getCookie("SCID"));
+            });
+    </script>
+    <div class="fullnav" id="nav">
+        <div class="navnav"><span class="close material-symbols-rounded" id="close">
+            close
+            </span></div>
+        <div class="mmnu">
+            <div class="wrap">
+            <a href="">Payment</a><br>
+            <a href="">Registeral Settings</a><br>
+            <a href="">Lessons</a><br>
+            <a href="">News & Annoucments</a><br>
+            <a href="">Profile Settings</a><br>
+            </div>
+        </div>
+    </div>
+    <nav class="cnav">
+        <img src="" alt="Chat Logo" class="logo">
+        <span class="menu material-symbols-rounded" id="menu">
+            menu
+            </span>
+    </nav>
+    <div class="main">
+        <div class="main0">
+            <div class="header">
+            <h1 id="snay"></h1>
+            <h2 id="gbfs">Resulting System</h2>
+            </div>
+            <div class="resulting">
+                <div style="display: flex; justify-content: center;">
+                <button class="rbtn" onclick="struct()">Structure your marklist</button>
+                <button class="rbtn" onclick="fill()">Start Filling</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Modal" class="modal">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-head">
+            <span class="close1" onclick="closef()">&times;</span>
+            </div>
+            <div class="modal-main" id="mdm">
+
+            </div>
+            </div>
+    </div>
+</body>
+<script>
+    let count = 0;
+    let arr = [];
+    let tra = 0;
+    function struct()
+    {
+        tra = 2;
+        $("#mdm").empty();
+        $("#mdm").append("<h2>Subject-type: SUBJECT</h2>");
+        $("#mdm").append("<p>Note that all the evaluations should add up to 100%</p>");
+        $("#mdm").append(`<form id="formm"><div id="justadiv"></div><div class="addbtnwrap" id="addbtnwrap"><button type="button" style="margin-bottom: 20px;" class="ar1" id="addopt" onclick="add()">Add an option</button><button type="submit" style="margin-bottom: 20px; margin-left: 10px;" class="ar1" onclick="done(event)">Done</button></div></form>`);
+        $("#Modal").css('display', 'block');
+        if (arr.length > 0)
+        {
+            for (let i = 0; i < arr[0].length; i++)
+            {
+                $("#justadiv").append(`<div class="swrap2" id="swrap3${i}">
+                    <div class="wrwr2">
+                    <input type="text" placeholder="Type (ex mid)" class="sw2na" id="i-option-text${i}" value="${arr[0][i]}" required>
+                    </div>
+                    <div class="wrwr2">
+                    <input type="number" placeholder="Value (e.x 20)" class="sw2na" id="i-option-textt${i}" value="${arr[1][i]}" required>
+                    </div>
+                    <div class="wrwr2">
+                    <button class="ar" id="ar-option${i}" type="button" onclick="removeme1(${i})">Remove this option</button>
+                    </div>
+                </div>`);
+            }   
+        }
+    }
+    function fill()
+    {
+        tra = 0;
+        $("#mdm").empty();
+        $("#Modal").css('display', 'block');
+    }
+    function add(){
+        $("#justadiv").append(`<div class="swrap2" id="swrap3${count}">
+                    <div class="wrwr2">
+                    <input type="text" placeholder="Type (ex mid)" class="sw2na" id="i-option-text${count}" required>
+                    </div>
+                    <div class="wrwr2">
+                    <input type="number" placeholder="Value (e.x 20)" class="sw2na" id="i-option-textt${count}" required>
+                    </div>
+                    <div class="wrwr2">
+                    <button class="ar" id="ar-option${count}" type="button" onclick="removeme1(${count})">Remove this option</button>
+                    </div>
+                </div>`);
+                count += 1;
+    }
+    function removeme1(c)
+    {
+        $(`#ar-option${c}`).remove();
+        $(`#i-option-text${c}`).remove();
+        $(`#i-option-textt${c}`).remove();
+        $(`#swrap3${c}`).remove();
+        if (count > 1)
+        {
+        for (let i = count; i > c; i--){
+            let j = i-1;
+            $(`#ar-option${i}`).attr("onclick", `removeme1(${j})`);
+            $(`#ar-option${i}`).attr("id", `ar-option${j}`);
+            $(`#i-option-text${i}`).attr("id", `i-option-text${j}`);
+            $(`#i-option-textt${i}`).attr("id", `i-option-textt${j}`);
+            $(`#swrap3${i}`).attr("id", `swrap3${j}`);
+        }
+        }
+        count -= 1;
+    };
+    function done(e){
+        arr = [[],[]];
+        let isFormValid = $('#formm')[0].checkValidity();
+        if(!isFormValid) {
+            $('#formm')[0].reportValidity();
+        } else {
+            e.preventDefault();
+            for (let i = 0; i < count; i++)
+            {
+                arr[0].push($(`#i-option-text${i}`).val());
+                arr[1].push(parseInt($(`#i-option-textt${i}`).val()));
+            }
+            if (arr[1].reduce((a, b) => a + b, 0) != 100)
+            {
+                alert("Please make sure your evaluations add up to 100");
+            }
+            else{
+                $.ajax({
+                    url: '/struct',
+                    type: 'POST',
+                    data: {da : arr},
+                    dataType: 'JSON',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        
+                    }
+                });
+            }
+
+        }
+    }
+    function closef(){
+        if (tra == 2)
+        {
+            arr = [[],[]];
+            for (let i = 0; i < count; i++)
+            {
+                arr[0].push($(`#i-option-text${i}`).val());
+                arr[1].push(parseInt($(`#i-option-textt${i}`).val()));
+            }
+        }
+        $("#Modal").css('display', 'none');
+    }
+    </script>
+</html>

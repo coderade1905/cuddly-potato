@@ -60,10 +60,9 @@ body {
 
 .cnav {
   width: 100%;
-  height: 10%;
+  height: 80px;
   background-color: #010101;
   min-height: 50px;
-  height: 10%;
   display: flex;
   align-items: center;
   justify-content: space-between;

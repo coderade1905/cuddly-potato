@@ -27,7 +27,6 @@
         data : {id : getCookie("SCID"), type : "Gender"},
         success : function(response)
         {
-            console.log(response);
             if (response.status == 400)
             {
                 window.location.href = response.red;
@@ -63,12 +62,10 @@
                 {
                     window.location.href = response.red;
                 }
-                console.log(response.data);
                 for (let i = 0; i < response.data.length; i++)
                 {
                     dict.push([response.data[i].Class, response.data[i].Cla]);
                 }
-                console.log(dict);
             },
             error : function(response)
             {

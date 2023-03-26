@@ -63,7 +63,6 @@ function selchange(sel)
             }
         }
         $("#Modal").show();
-        $("#justadiv").append();
     }
     else{
         $(`#length${sel}`).empty();

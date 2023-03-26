@@ -67,13 +67,13 @@ module.exports =  (app, express, con, con1, crypto, bp, decrypt) => {
       else{
          if (req.body.t == "")
          {
-            con1.query(`SELECT * FROM elearning WHERE Title LIKE '%${req.body.q}%' OR Description LIKE '%${req.body.q}%' ORDER BY Date DESC`, (err, data) => {
+            con1.query(`SELECT * FROM elearning WHERE Title LIKE ? OR Description LIKE ? ORDER BY Date DESC`, ["%" + req.body.q + "%", "%" + req.body.q + "%"], (err, data) => {
                if (err) throw err;
                res.json({data : data});
             });
          } 
          else{
-            con1.query(`SELECT * FROM elearning WHERE (Title LIKE '%${req.body.q}%' OR Description LIKE '%${req.body.q}%') AND (Type IN ${types}) ORDER BY Date DESC`, (err, data) => {
+            con1.query(`SELECT * FROM elearning WHERE (Title LIKE ? OR Description LIKE ?) AND (Type IN ${types}) ORDER BY Date DESC`, ["%" + req.body.q + "%", "%" + req.body.q + "%"], (err, data) => {
                if (err) throw err;
                res.json({data : data});
             });

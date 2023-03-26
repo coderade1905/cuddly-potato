@@ -5,6 +5,9 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
     app.get('/register', (req, res) => {
         res.sendFile(__dirname + '/public/index.html');
     })
+    app.get('/register-teacher', (req, res) => {
+        res.sendFile(__dirname + '/public/register-teacher.html');
+    })
     app.post('/verify-sms-otp', (req, res) => {
         let otp = req.body.otp;
         let phone = req.body.phone;
@@ -18,6 +21,18 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
         let id = req.body.id;
         let values = req.body.values;
         let fields = req.body.fields;
+        let ty = req.body.type;
+        let st = "";
+        let lg = "";
+        if (ty == "s")
+        {
+            st = "students";
+            lg = "/login";
+        }
+        else if (ty == "t"){
+            st = "teachers";
+            lg = "/login-teacher";
+        }
         values.forEach(value => {
             value.split('?').join('');
         });
@@ -51,7 +66,7 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
                         const diffTime1 = Math.abs(currentDate1 - generatedAt1);
                         if (diffTime1 < 600000)
                         {
-                            con1.query(`SELECT * FROM students${id} WHERE PhoneNumber = ?`, phone, (err, data) => {
+                            con1.query(`SELECT * FROM ${st+id} WHERE PhoneNumber = ?`, phone, (err, data) => {
                                 if (err) throw err;
                                 if (data.length > 0)
                                 {
@@ -60,17 +75,17 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
                                 else {
                                     if (rfields.length > 0)
                                     {
-                                        con1.query(`INSERT INTO students${id} (Fullname, PhoneNumber, Password, Gender, Class, Status, School_id, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,[rfields, fn, phone, PA, gender, cla, "W", id, values],(err, data) => 
+                                        con1.query(`INSERT INTO ${st+id} (Fullname, PhoneNumber, Password, ${st == "students" ? "Class," : ""} Gender, Status, School_id, ??) VALUES (?, ?, ?, ?, ${st == "students" ? "?," : ""} ?, ?, ?)`,[rfields, fn, phone, PA, gender, "W", id, values],(err, data) => 
                                             {
                                                 if (err) throw err;
                                                 res.json({status : 200, red : "/login"});
                                             });
                                     }
                                     else{
-                                        con1.query(`INSERT INTO students${id} (Fullname, PhoneNumber, Password, Gender, Class, Status) VALUES (?, ?, ?, ?, ? ,?)`,[fn, phone, PA, gender, cla, "W"],(err, data) => 
+                                        con1.query(`INSERT INTO ${st+id} (Fullname, PhoneNumber, Password, ${st == "students" ? "Class," : ""} Gender, Status) VALUES (?, ?, ? ${st == "students" ? "?," : ""} ,?, ?)`,[fn, phone, PA, gender, "W"],(err, data) => 
                                             {
                                                 if (err) throw err;
-                                                res.json({status : 200, red : "/login"});
+                                                res.json({status : 200, red : lg});
                                             });
                                     }
                                 }

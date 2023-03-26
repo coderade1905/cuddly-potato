@@ -1,0 +1,32 @@
+.resulting {
+  width: 100%;
+  height: calc(100% - 170px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rbtn {
+  border: none;
+  margin: 10px;
+  padding: 10px 40px;
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+.rbtn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.wrwr2 {
+  width: 30%;
+}
+
+@media screen and (max-width: 873px) {
+  .wrwr2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}/*# sourceMappingURL=resultstyle.css.map */

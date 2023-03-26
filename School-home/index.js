@@ -13,13 +13,16 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
         }
         else{
             con1.query(`SELECT Class,COUNT(*) As Cla FROM astudents WHERE School_id=? GROUP BY Class`,[decrypt(req.body.id)], (err, data) => {
-                res.json({data : data[0]});
+                res.json({data : data});
             });
         }
     })
     app.route('/school-home').get((req, res) => {
         res.sendFile(__dirname + '/public/index.html');
         }).post();
+    app.route('/get-started-teacher').get((req, res) => {
+        res.sendFile(__dirname + '/public/get-started-teacher.html');
+        })
     app.route('/get-started').get((req, res) => {
         res.sendFile(__dirname + '/public/get-started.html');
         }).post((req, res) => {
@@ -31,12 +34,12 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
             if (req.body.pn != "" && req.body.pass != "" && type != "")
             {
                 if (type == "s"){
-                    ac = "astudents";
+                    ac = "Student_id";
                     st = "students";
                 }
                 else if (type == "t")
                 {
-                    ac = "ateachers";
+                    ac = "Teacher_id";
                     st = "teachers";
                 }
                 try{
@@ -84,6 +87,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                         {
                                             let fieldName = element["1"];
                                             let fieldType = element["2"];
+                                
                                             let values = element["3"];
                                             let max = 0;
                                             values.forEach(element => {
@@ -127,8 +131,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                 }
                             });
                             options = options.split("?").join("");
-                            console.log(`CREATE TABLE ${st+id} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL, Status  varchar(1) NOT NULL, Gender varchar(6) NOT NULL, Class varchar(50) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
-                            con1.query(`CREATE TABLE ${st+id} (Student_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL, Status  varchar(1) NOT NULL, Gender varchar(6) NOT NULL, Class varchar(50) NOT NULL, School_id varchar(11) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
+                            con1.query(`CREATE TABLE ${st+id} (${ac} int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL, Status  varchar(1) NOT NULL, Gender varchar(6) NOT NULL, ${st == "students" ? "Class varchar(50) NOT NULL," : "" } School_id varchar(11) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
                                 if (err) throw err;
                             });
                         });
