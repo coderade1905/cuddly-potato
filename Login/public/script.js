@@ -75,13 +75,27 @@ $(document).ready(function(){
             var d = new Date();
             d.setTime(d.getTime() + (360*24*60*60*1000));
             var expires = "expires="+ d.toUTCString();
-            document.cookie = "sid=" + response.Sid + ";"  + expires + ";path=/;";
-            document.cookie = "STID=" + response.Stid + ";"  + expires + ";path=/;";
-            document.cookie = "user=" + response.User + ";"  + expires + ";path=/;";
-            document.cookie = "FN=" + response.FN + ";"  + expires + ";path=/;";
-            document.cookie = "SN=" + response.SN + ";"  + expires + ";path=/;";
-            document.cookie = "phonenumber=" + response.PN + ";"  + expires + ";path=/;";
-            document.cookie = "pass=" + response.Pass + ";"  + expires + ";path=/;";
+            if (type == "s")
+            {
+                document.cookie = "sid=" + response.Sid + ";"  + expires + ";path=/;";
+                document.cookie = "STID=" + response.Stid + ";"  + expires + ";path=/;";
+                document.cookie = "user=" + response.User + ";"  + expires + ";path=/;";
+                document.cookie = "FN=" + response.FN + ";"  + expires + ";path=/;";
+                document.cookie = "SN=" + response.SN + ";"  + expires + ";path=/;";
+                document.cookie = "phonenumber=" + response.PN + ";"  + expires + ";path=/;";
+                document.cookie = "pass=" + response.Pass + ";"  + expires + ";path=/;";
+            }
+            else{
+                document.cookie = "teach-sid=" + response.Sid + ";"  + expires + ";path=/;";
+                document.cookie = "teach-STID=" + response.Stid + ";"  + expires + ";path=/;";
+                document.cookie = "teach-user=" + response.User + ";"  + expires + ";path=/;";
+                document.cookie = "teach-FN=" + response.FN + ";"  + expires + ";path=/;";
+                document.cookie = "teach-SN=" + response.SN + ";"  + expires + ";path=/;";
+                document.cookie = "teach-phonenumber=" + response.PN + ";"  + expires + ";path=/;";
+                document.cookie = "teach-pass=" + response.Pass + ";"  + expires + ";path=/;";
+                document.cookie = "teach-subject=" + response.Sub + ";"  + expires + ";path=/;";
+                document.cookie = "teach-class=" + response.Cla + ";"  + expires + ";path=/;";
+            }
             window.location.href = response.red;
             }
             else {

@@ -13,13 +13,15 @@
     <link rel="stylesheet" href="/resulting/public/resultstyle.css">
     <script src="/jquery.min.js"></script>
     <script src="../Navstyle/nav.js"></script>
+    <script src="/cookie-validate/getcookie.js"></script>
     <script src="/cookie-validate/validate.js"></script>
+    <script src="/resulting/public/fetchf.js"></script>
     <title>Resulting System</title>
 </head>
 <body>
     <noscript>Please enable javascript!!</noscript>
     <script>
-        validate("school");
+        validate("teacher");
         var d = new Date();
         var year = d.getFullYear();
         $(document).ready(
@@ -75,14 +77,12 @@
     </div>
 </body>
 <script>
-    let count = 0;
-    let arr = [];
     let tra = 0;
     function struct()
     {
         tra = 2;
         $("#mdm").empty();
-        $("#mdm").append("<h2>Subject-type: SUBJECT</h2>");
+        $("#mdm").append("<p style='font-size : 30px'>Grade "+getCookie("teach-class")+ " " +getCookie("teach-subject")+ " </p>");
         $("#mdm").append("<p>Note that all the evaluations should add up to 100%</p>");
         $("#mdm").append(`<form id="formm"><div id="justadiv"></div><div class="addbtnwrap" id="addbtnwrap"><button type="button" style="margin-bottom: 20px;" class="ar1" id="addopt" onclick="add()">Add an option</button><button type="submit" style="margin-bottom: 20px; margin-left: 10px;" class="ar1" onclick="done(event)">Done</button></div></form>`);
         $("#Modal").css('display', 'block');
@@ -109,6 +109,23 @@
         tra = 0;
         $("#mdm").empty();
         $("#Modal").css('display', 'block');
+        $.ajax({
+            url: '/resstu',
+            type: 'POST',
+            data: {tid : getCookie("teach-STID"), Sid : getCookie("teach-sid")},
+            dataType: 'JSON',
+            success: function(response) {
+                for (let i = 0; i < response.data.length; i++) {
+                    $("#mdm").append(`<div class="swrap2" id="swrap30"><p style='font-size : 30px;'>${response.data[i].Fullname}</p>
+                    <div class="wrwr2">
+                    <button class="ar" type="button" onclick="window.location = '/resultstudent?id=${response.data[i].School_id}&id1=${response.data[i].Student_id}'">Result</button>
+                    </div> </div>`);
+                }
+            },
+            error: function(xhr, status, error) {
+                
+            }
+        });
     }
     function add(){
         $("#justadiv").append(`<div class="swrap2" id="swrap3${count}">
@@ -163,7 +180,7 @@
                 $.ajax({
                     url: '/struct',
                     type: 'POST',
-                    data: {da : arr},
+                    data: {da : arr, tid : getCookie("teach-STID"), Sid : getCookie("teach-sid")},
                     dataType: 'JSON',
                     success: function(response) {
                         console.log(response);

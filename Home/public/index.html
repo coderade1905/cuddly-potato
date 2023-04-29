@@ -22,7 +22,20 @@
             function () {
                 $("#snay").text(getCookie("SN") + " "+ year);
                 $("#gbfs").text("Gradebook for " + getCookie("FN"));
-            }
+            $.ajax({
+                url: '/teacher-home',
+                type: 'POST',
+                data: {id : getCookie("STID"), Sid : getCookie("sid")},
+                dataType: 'JSON',
+                success: function(response) {
+                    $("#avg").text("Average as it stands - " + ((response.sum * 100) / response.sum1).toFixed(2)+ "%");
+                    $("#cprog").css('width', (response.sum * 100) / response.sum1 + "%")
+                },
+                error: function(xhr, status, error) {
+                    
+                }
+            })
+                }
         );
     </script>
     <script>
@@ -70,13 +83,12 @@
             <div class="header">
             <h1 id="snay"></h1>
             <h2 id="gbfs"></h2>
-            <h3>Current Rank - <span>#1</span></h3>
             </div>
-            <h4 class="avg">Avarage - 50%</h4>
+            <h4 class="avg" id="avg">Avarage - 50%</h4>
             <div class="prog">
-                <div class="cprog"></div>
+                <div class="cprog" id="cprog"></div>
             </div>
-            <div class="vts"><button class="vsbtn"  id="vs">View Total Score</button></div>
+            <div class="vts"><button class="vsbtn" style="margin-right: 10px;" id="vs">View Total Score</button><button class="vsbtn" style="margin-left: 10px;"  id="vs1">View your ranking</button></div>
         </div>
     </main>
     <div id="Modal" class="modal">
@@ -86,39 +98,8 @@
             </div>
             <div class="modal-main">
             <div class="main-head">
-                <select class="sel" name="" id="">
-                    <option value="" disabled selected hidden>Month</option>
-                    <option value="">September</option>
-                    <option value="">October</option>
-                    <option value="">November</option>
-                    <option value="">December</option>
-                    <option value="">January</option>
-                    <option value="">February</option>
-                    <option value="">March</option>
-                    <option value="">April</option>
-                    <option value="">May</option>
-                    <option value="">June</option>
-                    <option value="">July</option>
-                    <option value="">August</option>
-                </select>
-                <select class="sel" name="" id="">
-                    <option value="" disabled selected hidden>Subject</option>
-                    <option value="">Amharic</option>
-                    <option value="">English</option>
-                    <option value="">Maths</option>
-                </select>
-                <select class="sel" name="" id="">
-                    <option value="" disabled selected hidden>Type</option>
-                    <option value="">Tests</option>
-                    <option value="">Mid</option>
-                    <option value="">Final</option>
-                </select>
             </div>
-            <div class="main-main" id="main-main">
-                <p>Amharic</p>
-                <p>50</p>
-                <p>100</p>
-            </div>
+            <div id="modal-main"></div>
             </div>
         </div>
         </div>

@@ -17,7 +17,7 @@ module.exports =  (app, express, con, crypto, bp, encrypt) => {
                         }
                         if(data.length == 1)
                         {
-                            res.json({SCID : encrypt(data[0].Id+ ""), SSN : data[0].school_name, Email : encrypt(data[0].email), Pass: encrypt(data[0].password), red : "/school-home", status : 200});
+                            res.json({SCID : encrypt(data[0].Id+ ""), SSN : data[0].school_name, Email : encrypt(data[0].email), Pass: encrypt(data[0].password),City : encrypt(data[0].City), red : "/school-home", status : 200});
                         }
                         else{
                             res.json({message : 'Incorrect email or password', status : 401});

@@ -22,23 +22,45 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
         let values = req.body.values;
         let fields = req.body.fields;
         let ty = req.body.type;
+        let ts = req.body.ts;
+        let td = req.body.td;
         let st = "";
         let lg = "";
+        let uid = "";
+        let smt;
+        let values1 = "";
         if (ty == "s")
         {
             st = "students";
             lg = "/login";
+            smt = cla + ",";
         }
         else if (ty == "t"){
             st = "teachers";
-            lg = "/login-teacher";
+            lg = "/teacher-login";
+            uid = req.body.uid;
+            uid = uid.split("-").join("_");
+            smt = td + ",'" + ts + "',";
         }
-        values.forEach(value => {
-            value.split('?').join('');
-        });
-        fields.forEach(field => {
-            field['Name'] = field['Name'].split('?').join('');
-        });
+        let ccc = 0;
+        if (fields)
+        {
+            values.forEach(value => {
+                value.split('?').join('');
+                if (ccc == 0)
+                {
+                    values1 += "'" + value + "'";
+                }
+                else{
+                    values1 += ",'" + value + "'";
+                }
+                ccc += 1;
+            });
+            console.log(values1);
+            fields.forEach(field => {
+                field['Name'] = field['Name'].split('?').join('');
+            });
+        }
         let rfields = [];
         console.log(typeof(fields));
         if (fields != undefined)
@@ -66,7 +88,7 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
                         const diffTime1 = Math.abs(currentDate1 - generatedAt1);
                         if (diffTime1 < 600000)
                         {
-                            con1.query(`SELECT * FROM ${st+id} WHERE PhoneNumber = ?`, phone, (err, data) => {
+                            con1.query(`SELECT * FROM ${st+(uid == "" ? id : "")+uid} WHERE PhoneNumber = ?`, phone, (err, data) => {
                                 if (err) throw err;
                                 if (data.length > 0)
                                 {
@@ -75,14 +97,14 @@ module.exports =  (app, express, con, con1, crypto, bp) => {
                                 else {
                                     if (rfields.length > 0)
                                     {
-                                        con1.query(`INSERT INTO ${st+id} (Fullname, PhoneNumber, Password, ${st == "students" ? "Class," : ""} Gender, Status, School_id, ??) VALUES (?, ?, ?, ?, ${st == "students" ? "?," : ""} ?, ?, ?)`,[rfields, fn, phone, PA, gender, "W", id, values],(err, data) => 
+                                        con1.query(`INSERT INTO ${st+(uid == "" ? id : "")+uid} (Fullname, PhoneNumber, Password, ${st == "students" ? "Class," : "Teaching_class, Teaching_subject,"} Gender, Status, School_id, ??) VALUES ('${fn}', '${phone}', '${PA}', ${smt} '${gender}', 'W', '${id}', ${values1})`,[rfields],(err, data) => 
                                             {
                                                 if (err) throw err;
-                                                res.json({status : 200, red : "/login"});
+                                                res.json({status : 200, red : lg});
                                             });
                                     }
                                     else{
-                                        con1.query(`INSERT INTO ${st+id} (Fullname, PhoneNumber, Password, ${st == "students" ? "Class," : ""} Gender, Status) VALUES (?, ?, ? ${st == "students" ? "?," : ""} ,?, ?)`,[fn, phone, PA, gender, "W"],(err, data) => 
+                                        con1.query(`INSERT INTO ${st+(uid == "" ? id : "")+uid} (Fullname, PhoneNumber, Password, ${st == "students" ? "Class," : "Teaching_class, Teaching_subject,"} Gender, Status, School_id) VALUES ('${fn}', '${phone}', '${PA}', ${smt} '${gender}', 'W', ${id})`,(err, data) => 
                                             {
                                                 if (err) throw err;
                                                 res.json({status : 200, red : lg});

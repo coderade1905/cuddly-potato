@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,0" />
+    <link rel="stylesheet" href="../Navstyle/navstyle.css">
+    <link rel="stylesheet" href="/home/public/homestyle.css">
+    <link rel="stylesheet" href="/school-home/public/school-home.css">
+    <link rel="stylesheet" href="/lm/public/style.css">
+    <script src="/jquery.min.js"></script>
+    <script src="../Navstyle/nav.js"></script>
+    <script src="/cookie-validate/validate.js"></script>
+    <title>Hire Teachers</title>
+</head>
+<body>
+    <noscript>Please enable javascript!!</noscript>
+    <script>
+        validate("school");
+        var d = new Date();
+        var year = d.getFullYear();
+        $(document).ready(
+            function ()
+            {
+                $("#snay").text(getCookie("SSN") + " "+ year);
+                $("#sid").val(getCookie("SCID"));
+                $("#pn").val(getCookie("school-email"));
+                $("#pass").val(getCookie("school-pass"));
+                $("#city").val(getCookie("school-city"));
+            });
+    </script>
+    <div class="fullnav" id="nav">
+        <div class="navnav"><span class="close material-symbols-rounded" id="close">
+            close
+            </span></div>
+        <div class="mmnu">
+            <div class="wrap">
+            <a href="">Payment</a><br>
+            <a href="">Registeral Settings</a><br>
+            <a href="">Lessons</a><br>
+            <a href="">News & Annoucments</a><br>
+            <a href="">Profile Settings</a><br>
+            </div>
+        </div>
+    </div>
+    <nav class="cnav">
+        <img src="" alt="Chat Logo" class="logo">
+        <span class="menu material-symbols-rounded" id="menu">
+            menu
+            </span>
+    </nav>
+    <div class="main">
+        <div class="main0">
+            <div class="header">
+            <h1 id="snay"></h1>
+            <h2 id="gbfs">Post Job Annoucment For Your Teachers To Apply</h2>
+            </div>
+            <div class="upload-wrap">
+            <form  action='/get-started-teacher' method='post'>
+                <input type="text" name="title" placeholder="Job Title"><br>
+                <textarea name="desc" id="" cols="30" rows="10" placeholder="Description"></textarea><br>
+                <input type="text" name="req" placeholder="Requirments (separated by comma)""><br>
+                <select name="Tclass">
+                    <option disabled selected hidden>Teaching-Class</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+                <select name="Tsub">
+                    <option disabled selected hidden>Teaching-Subject</option>
+                    <option value="a">Amharic</option>
+                    <option value="a">English</option>
+                    <option value="m">Maths</option>
+                    <option value="p">Physics</option>
+                </select>
+                <input type="hidden" name="pn" id="pn">
+                <input type="hidden" name="pass" id="pass">
+                <input type="hidden" name="city" id="city">
+                <input type='submit' value='Post!' />
+        </form> 
+    </div>   
+        </div>
+    </div>
+</body>
+</html>

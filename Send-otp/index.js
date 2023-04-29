@@ -36,7 +36,7 @@ module.exports =  (app, express, con, con1, bp, nodeMailer, crypto) => {
       }
       function randomAsciiString(length) {
         return randomString(length,
-          'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+=-~');
+          '0123456789');
       }
     app.post('/send-email', function (req, res) {
         const Email = req.body.to;

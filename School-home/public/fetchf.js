@@ -7,7 +7,7 @@ function cho1(cho)
         $.ajax({
             url: "/school-req",
             type: 'POST',
-            data: {email : getCookie("school-email"), e : "y", type : cho},
+            data: {email : getCookie("school-email"), e : "y", type : cho, uid : uid},
             dataType: 'JSON',
             success: function(response)
             {

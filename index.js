@@ -18,7 +18,6 @@ app.use(express.static(__dirname));
 const ENC_KEY = Buffer.from(process.env.SEC_KEY, "hex")
 const IV = Buffer.from(process.env.INITVEC, "hex")
 const fileUpload = require('express-fileupload');
-const { exec } = require("child_process");
 
 app.use(fileUpload());
 
@@ -69,14 +68,14 @@ require('./Register-School/index.js')(app, express, con, con1, crypto, bp, mysql
 require('./Chats/index.js')(app, express, con, con1, con2, io, bp, crypto, encrypt, decrypt);
 require('./Login/index.js')(app, express, con, con1, crypto, bp, encrypt);
 require('./School-Login/index.js')(app, express, con, crypto, bp, encrypt);
-require('./Home/index.js')(app, express, con, crypto, bp, encrypt);
+require('./Home/index.js')(app, express, con, con1, crypto, bp, encrypt, decrypt);
 require('./Cookie-Validate/index.js')(app, express, con, con1, crypto, bp, decrypt);
 require('./Search-School/index.js')(app, express, con, con1, crypto, bp, mysql, decrypt);
 require('./Send-otp/index.js')(app, express, con, con1, bp, nodeMailer, crypto);
 require('./School-home/index.js')(app, express, con, con1, crypto, bp, decrypt, query);
 require('./Addmission/index.js')(app, express, con, con1, crypto, bp, decrypt);
 require('./E-Learning/index.js')(app, express, con, con1, crypto, bp, decrypt);
-require('./Resulting/index.js')(app, express, con, con1, crypto, bp, encrypt);
+require('./Resulting/index.js')(app, express, con, con1, crypto, bp, encrypt, decrypt);
 require('./Font/index.js')(app, express);
 
 const port = 3030;

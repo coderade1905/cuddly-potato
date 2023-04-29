@@ -1,13 +1,21 @@
 var d = new Date();
 var s;
 var year = d.getFullYear();
-var email = getCookie("school-email");
+var email;
 var num = 0;
-var url;
 var detail = {};
 $("#snay").text(getCookie("SSN") + " "+ year);
 function load(ur) {
     url = ur;
+    if (url == "/admission")
+    {
+        email = getCookie("school-email");
+    }
+    else{
+        var url = new URL(window.location);
+        var id = url.searchParams.get("id");
+        email = id;
+    }
     $("#mainn").empty();
     $.ajax({
         url: url,

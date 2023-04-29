@@ -25,6 +25,10 @@ function validate(type)
     {
         datat = {pn : getCookie("phonenumber"), pass : getCookie("pass"), type : type, sid : getCookie("sid")};
     }
+    if (type == "teacher")
+    {
+        datat = {pn : getCookie("teach-phonenumber"), pass : getCookie("teach-pass"), type : type, sid : getCookie("teach-sid")};
+    }
     $.ajax(
         {
             url : "/cookie-validate",

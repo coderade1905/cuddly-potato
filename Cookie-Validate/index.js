@@ -65,6 +65,38 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) =>
         {
             return res.json({red : '/school-login', status : 400});
         }
+    };
+    function teacher(req, res)
+    {
+        if (req.body.pn != "" && req.body.pass != "")
+        {
+            let pn = "";
+            let pass = "";
+            let sid = req.body.sid;
+            try {
+                pn = decrypt(req.body.pn);
+                pass = decrypt(req.body.pass);
+            } catch (error) {
+                return res.json({red: '/teacher-login', status : 400});
+            }
+            query = `SELECT * FROM ateachers WHERE PhoneNumber = ? AND Password = ? AND School_id = ? `;
+            con1.query(query, [pn, pass, decrypt(sid)] ,(err, data) => {
+                if (err) {
+                    throw err;
+                }
+                if(data.length > 0)
+                {
+                    return res.json({PN : data[0].PhoneNumber, FN : data[0].FullName, Pass : data[0].Password, Cyear : new Date().getFullYear(), status : 200});
+                }
+                else{
+                    return res.json({red: '/teacher-login', status : 400});
+                }        
+            });
+    }
+    else 
+        {
+            return res.json({red: '/login', status : 400});
+        }
     }
     app.post('/cookie-validate', (req, res) => {
         if (req.body.type == "student")
@@ -74,6 +106,10 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) =>
         if (req.body.type == "school")
         {
             school(req, res);
+        }
+        if (req.body.type == "teacher")
+        {
+            teacher(req, res);
         }
     });
 

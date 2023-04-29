@@ -14,9 +14,14 @@ module.exports =  (app, express, con, con1, crypto, bp, mysql, decrypt) => {
                     res.json(arr);
                 });
     
-});
+        });
 app.route('/school-req').post((req, res) => {
     var type = req.body.type;
+    let uid = "";
+    if (type == "t")
+    {
+        uid = req.body.uid;
+    }
     if (req.body.e == "y")
     {
         try {
@@ -28,14 +33,17 @@ app.route('/school-req').post((req, res) => {
     else{
         email = req.body.email;
     }
-    const query1 = `SELECT Id FROM login WHERE email = ?`
+    const query1 = `SELECT Id FROM login WHERE email = ?`;
             con.query(query1, email, (err, data) => {
                 if (err) {
                     throw err;
                 }
                 if (data.length > 0)
                 {
-                const query2 = `SELECT * FROM schema${data[0].Id} WHERE t="${type}"`
+                uid = uid.split("-").join("_");
+                const query2 = `SELECT * FROM schema${data[0].Id} WHERE t="${type+uid}"`
+                console.log(query2);
+
                 con1.query(query2, (err, data1) => {
                     if(err) {           
                     throw err;
@@ -46,4 +54,18 @@ app.route('/school-req').post((req, res) => {
             });
 
 });
+app.route('/regtec').post((req, res) => {
+    let uid = req.body.uid;
+    console.log("SELECT * FROM regtec WHERE Uid = " + uid);
+    con.query("SELECT * FROM regtec WHERE Uid = ?", [uid], (err, data) => {
+        if (err) throw err;
+        if (data.length > 0)
+        {
+            res.json({data : data[0].email, td : data[0].td, ts : data[0].ts, stat : 200});
+        }
+        else{
+            res.json({red : "https://google.com", stat : 401});
+        }
+    })
+})
 }

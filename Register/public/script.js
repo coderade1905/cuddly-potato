@@ -73,8 +73,8 @@ $(document).ready(function(){
                             $("#wrap").append("<input type='text' name='PhoneNumber' id='PhoneNumber' class='na mar' placeholder='Phone Number e.x (+12124567890)' required autocomplete='off' maxlength='20'><br>");
                             $("#wrap").append('<input type="password" name="Password" id="pa"  class="pa mar" placeholder="Password" required autocomplete="off"  maxlength="100"><button type="button" class="ic" id="ic"><i class="bi bi-eye"></i></button><br>');
                             $("#wrap").append('<input type="password" name="C-Password"  id="cpa" class="pa mar" placeholder="Confirm Password" required autocomplete="off"  maxlength="100"><button type="button" class="ic" id="icc"><i class="bi bi-eye"></i></button><br></br>');
-                            $("#wrap").append("<input type='radio' name='gender' value='male' required><span class='gend'>male</span>");
-                            $("#wrap").append("<input type='radio' name='gender' value='female' required><span class='gend'>female</span><br>");
+                            $("#wrap").append("<input type='radio' name='gender' class='mar' value='male' required><span class='gend'>male</span>");
+                            $("#wrap").append("<input type='radio' name='gender' class='mar' value='female' required><span class='gend'>female</span><br>");
                             $("#wrap").append("<select class='na mar' name='cla' required><option value='9'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option></select>");
                             $("#ic").click(function() {
                             if ($("#pa").attr('type') == 'password')

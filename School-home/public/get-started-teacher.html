@@ -10,12 +10,22 @@
     <link rel="stylesheet" href="/school-home/public/get-started.css">
     <script src="/jquery.min.js"></script>
     <script src="/cookie-validate/validate.js"></script>
-    <script src="/school-home/public/fetchf.js"></script>
     <script src="/school-home/public/get-started.js"></script>
     <title>Teacher admission</title>
 </head>
 <body>
+    <script>
+        var url_string = window.location; 
+        var url = new URL(url_string);
+        let uid = url.searchParams.get("id");
+        let title = url.searchParams.get("title");
+        let desc = url.searchParams.get("desc");
+        let req = url.searchParams.get("req");
+        let ts = url.searchParams.get("ts");
+        let td = url.searchParams.get("td");
+    </script>
     <noscript>Please enable javascript!!</noscript>
+    <script src="/school-home/public/fetchf.js"></script>
     <script>
         validate("school");
         cho("t");
@@ -31,7 +41,7 @@
                 <div class="box" id="box">
                     <div class="justw" id="justw">
                         <h3 class="quest-text" id="quest-text2">Enter fileds that you want to be filled by your teachers in registeration.</h3>
-                        <h3 class="quest-desc" id="quest-desc1">Note: by default we require fullname, phonenumber and password fields.</h3>
+                        <h3 class="quest-desc" id="quest-desc1">Note: by default we require fullname, phonenumber, password, fields.</h3>
                     </div>
             
                         <div class="addbtnwrap" id="addbtnwrap"><button type="button" class="ar1" id="addfi">Add a field.</button></div>

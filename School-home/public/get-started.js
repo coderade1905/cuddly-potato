@@ -113,7 +113,7 @@ function cho(cho)
                     $.ajax({
                         url: "/get-started",
                         type: 'POST',
-                        data: {type : "s", otherChoices : dict, pn : getCookie("school-email"), pass : getCookie("school-pass"), type : cho},
+                        data: {otherChoices : dict, pn : getCookie("school-email"), pass : getCookie("school-pass"), type : cho, uid : uid},
                         dataType: 'JSON',
                         success: function(response){
                             if (response.status == 401 || response.status == 200)

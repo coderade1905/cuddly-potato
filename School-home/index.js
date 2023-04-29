@@ -2,6 +2,8 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
     app.use(bp.json());
     app.use("/school-home/public", express.static(__dirname + "/public"));
     app.use(bp.urlencoded({ extended: true }));
+    const axios = require('axios');
+    const uuidv4 = require('uuid/v4');
     app.post('/count', async (req, res) => {
         if (req.body.type == "Gender"){
             let id = decrypt(req.body.id);
@@ -22,7 +24,50 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
         }).post();
     app.route('/get-started-teacher').get((req, res) => {
         res.sendFile(__dirname + '/public/get-started-teacher.html');
-        })
+        }).post((req, res) => {
+            let title = req.body.title;
+            let desc = req.body.desc;
+            let reqi = req.body.req;
+            let tc = req.body.Tclass;
+            let ts = req.body.Tsub;
+            let id = uuidv4();
+            let stat = 0;
+            try{
+                pn = decrypt(req.body.pn);
+                pass = decrypt(req.body.pass);
+            }
+            catch(error){
+                res.json({red : 'http://localhost:3030/school-login', status : 401});
+                console.log(error);
+                stat = 1;
+            }
+            if (stat == 0)
+            {
+                let query = "SELECT id FROM login WHERE email = ? AND password = ?";
+                con.query(query, [pn, pass] ,(err, data) => {
+                    if (err) {
+                        throw err;
+                    }
+                    if(data.length > 0)
+                    {
+                        con.query("INSERT INTO regtec (email, Uid, Open, ts, td) VALUES (?,?,?,?,?)", [pn, id, 0, ts, tc], (err, data) => {
+                            if (err) throw err;
+                        });
+                        res.redirect(`/get-started-teacher?id=${id}`);
+                        axios.get(`https://api.telegram.org/bot5934765889:AAEKluxRgY03WytFFrDUS2Y2ZeHJ8lkxAaU/sendMessage?chat_id=-1001896620676&text="${id} ${req.body.city} ${title} ${reqi} ${desc}"`)
+                        .then(response => {
+                            
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                    }
+                });
+            }
+        });
+    app.route('/hire-teachers').get((req, res) => {
+        res.sendFile(__dirname + '/public/hire-teachers.html');
+        });
     app.route('/get-started').get((req, res) => {
         res.sendFile(__dirname + '/public/get-started.html');
         }).post((req, res) => {
@@ -31,6 +76,9 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
             let type = req.body.type;
             let ac = "";
             let st = "";
+            let uid = "";
+            let stat = 0;
+            let stat1 = 0;
             if (req.body.pn != "" && req.body.pass != "" && type != "")
             {
                 if (type == "s"){
@@ -41,6 +89,8 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                 {
                     ac = "Teacher_id";
                     st = "teachers";
+                    uid = req.body.uid;
+                    uid = uid.split("-").join("_");
                 }
                 try{
                     pn = decrypt(req.body.pn);
@@ -48,7 +98,11 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                 }
                 catch(error){
                     res.json({red : 'http://localhost:3030/school-login', status : 401});
+                    console.log(error);
+                    stat = 1;
                 }
+                if (stat == 0)
+                {
                 let options = "";
                 let options1 = "";
                 let array = req.body.otherChoices;
@@ -56,7 +110,6 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                 let clean = ['text', 'number', 'file', 'email', 'image', 'password']
                 const reference = {number : "int", text : "varchar", email : "email", image : "varchar", password : "varchar", radio : "varchar", select : "varchar", email : "varchar", }
                 let query = "SELECT id FROM login WHERE email = ? AND password = ?";
-                console.log(array);
                 con.query(query, [pn, pass] ,(err, data) => {
                     if (err) {
                         throw err;
@@ -64,19 +117,18 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                     if(data.length > 0)
                     {
                         var id = data[0].id;
-                        con1.query(`SELECT * FROM schema${id} WHERE t = '${type}'`, (err, data) => {
+                        con1.query(`SELECT * FROM schema${id} WHERE t = '${type+uid}'`, (err, data) => {
                             if (err) {
                                 throw err;
                             }
                             if (data.length > 0)
                             {
-                                con1.query(`DROP TABLE ${st+id}`, (err, data) => {
-                                    if (err) {throw err}
-                                });
-                                con1.query(`DELETE FROM schema${id} WHERE t = '${type}'`, (err, data) => {
+                                con1.query(`DELETE FROM schema${id} WHERE t = '${type+uid}'`, (err, data) => {
                                     if (err) {throw err}
                                 });
                             }
+                            if (array)
+                            {
                             array.forEach(element => {
                                 options1 = "";
                                 if (element.ind == 1)
@@ -104,7 +156,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                                 }
                                             });
                                             options += `, ${fieldName.split(" ").join("_")} ${reference[fieldType]}(${max}) NOT NULL`;
-                                            con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, max, '1' ,options1, type], (err, data) => {
+                                            con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, max, '1' ,options1, type+uid], (err, data) => {
                                                 if (err) throw err;
                                             });
                                         }
@@ -120,18 +172,26 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                                             let fieldType = element["2"];
                                             let length = element["3"];
                                             if (!Number.isInteger(length)) {
-                                                res.json({message : "Length must be integer!",status : 400})
+                                                stat1 = 1;
                                             }
                                             options += `, ${fieldName.split(" ").join("_")} ${reference[fieldType]}(${length}) NOT NULL`;
-                                            con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, length, '0' , 'NOTANOPTION', type],(err, data) => {
+                                            con1.query(`INSERT INTO schema${id} (Field_Name ,Field_Type, Length, Is_option, options, t) VALUES (?, ?, ?, ?, ?, ?)`, [fieldName, fieldType, length, '0' , 'NOTANOPTION', type+uid],(err, data) => {
                                                 if (err) throw err;
                                             });
                                         }
                                     }
                                 }
                             });
+                            }
+                            if (stat1 == 1)
+                            {
+                                res.json({message : "Length must be integer!",status : 400})
+                            }
                             options = options.split("?").join("");
-                            con1.query(`CREATE TABLE ${st+id} (${ac} int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL, Status  varchar(1) NOT NULL, Gender varchar(6) NOT NULL, ${st == "students" ? "Class varchar(50) NOT NULL," : "" } School_id varchar(11) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
+                            con1.query(`DROP TABLE ${st+(type == "s" ? id : "")+uid}`, (err, data) => {
+                                if (err) {throw err}
+                            });
+                            con1.query(`CREATE TABLE ${st+(type == "s" ? id : "")+uid} (${ac} int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,Fullname varchar(40) NOT NULL, Password varchar(100) NOT NULL, PhoneNumber varchar(100) NOT NULL, Status  varchar(1) NOT NULL, Gender varchar(6) NOT NULL, ${st == "students" ? "Class varchar(50) NOT NULL," : "Teaching_class int(11) NOT NULL, Teaching_subject varchar(50) NOT NULL," } School_id varchar(11) NOT NULL ${options}) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`, (err, data) => {
                                 if (err) throw err;
                             });
                         });
@@ -140,6 +200,7 @@ module.exports = (app, express, con, con1, crypto, bp, decrypt) => {
                         res.json({red : '/school-login', status : 401});
                     }       
                 });
+                }
             }
         }
         );

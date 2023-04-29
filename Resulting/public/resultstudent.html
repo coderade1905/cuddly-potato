@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,0" />
+    <link rel="stylesheet" href="../Navstyle/navstyle.css">
+    <link rel="stylesheet" href="/home/public/homestyle.css">
+    <link rel="stylesheet" href="/school-home/public/school-home.css">
+    <link rel="stylesheet" href="/lm/public/style.css">
+    <link rel="stylesheet" href="/commoncss/public/modal.css">
+    <link rel="stylesheet" href="/school-home/public/get-started.css">
+    <link rel="stylesheet" href="/resulting/public/resultstyle.css">
+    <script src="/jquery.min.js"></script>
+    <script src="../Navstyle/nav.js"></script>
+    <script src="/cookie-validate/getcookie.js"></script>
+    <script src="/cookie-validate/validate.js"></script>
+    <title>Resulting System</title>
+</head>
+<body>
+    <script>
+        var url = new URL(window.location);
+        var id = url.searchParams.get("id");
+        var id1 = url.searchParams.get("id1");
+        let arr = [];
+        $.ajax({
+            url: '/studentinfo',
+            type: 'POST',
+            data: {id : getCookie("teach-sid"), Sid : getCookie("teach-STID"), id1 : id, id2 : id1},
+            dataType: 'JSON',
+            success: function(response) {
+                console.log(response);
+                if (response.status == 200)
+                {
+                    $("#gbfs").text(`Fill ${response.FN}'s ${response.TS} Result`);
+                }
+                else{
+                    window.location.href = response.red;
+                }
+            },
+            error: function(xhr, status, error) {
+                
+            }
+        })
+        $.ajax({
+            url: '/resultstudent',
+            type: 'POST',
+            data: {tid : getCookie("teach-STID"), Sid : getCookie("teach-sid"), id : id1},
+            dataType: 'JSON',
+            success: function(response) {
+                console.log(response);
+                for (let i = 0; i < response.data.length; i++) {
+                    $("#tab").append(`<div><p>${response.data[i].Type}</p><input max='${response.data[i].Value}' type='number' id='mark${i}' value='${(response.data1[i] == undefined ? "" : response.data1[i].Value)}'></div>`);
+                    arr.push(response.data[i].Type);
+                }
+                $("#tab").append(`<div style="display: flex; justify-content: center;"><button class="next" onclick="fill()">Fill</button></div>`);
+            },
+            error: function(xhr, status, error) {
+                
+            }
+        })
+    </script>
+    <noscript>Please enable javascript!!</noscript>
+    <script>
+        validate("teacher");
+        var d = new Date();
+        var year = d.getFullYear();
+        $(document).ready(
+            function ()
+            {
+                $("#snay").text(getCookie("SSN") + " "+ year);
+                $("#sid").val(getCookie("SCID"));
+            });
+        function fill(){
+            let arr1 = [];
+            for (let i = 0; i < arr.length; i++)
+            {
+                arr1.push($(`#mark${i}`).val());
+            }
+            $.ajax({
+                url: '/fillresult',
+                type: 'POST',
+                data: {id : getCookie("teach-sid"), Sid : getCookie("teach-STID"), id1 : id, id2 : id1, arr : arr, arr1 : arr1},
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 200)
+                    {
+                        console.log(response);
+                    }
+                    else{
+                        window.location.href = response.red;
+                    }
+                },
+                error: function(xhr, status, error) {
+                    
+                }
+            })
+            console.log(id, id1, getCookie("teach-STID"), getCookie("teach-sid"), arr, arr1);
+        }
+    </script>
+    <div class="fullnav" id="nav">
+        <div class="navnav"><span class="close material-symbols-rounded" id="close">
+            close
+            </span></div>
+        <div class="mmnu">
+            <div class="wrap">
+            <a href="">Payment</a><br>
+            <a href="">Registeral Settings</a><br>
+            <a href="">Lessons</a><br>
+            <a href="">News & Annoucments</a><br>
+            <a href="">Profile Settings</a><br>
+            </div>
+        </div>
+    </div>
+    <nav class="cnav">
+        <img src="" alt="Chat Logo" class="logo">
+        <span class="menu material-symbols-rounded" id="menu">
+            menu
+            </span>
+    </nav>
+    <div class="main">
+        <div class="main0">
+            <div class="header">
+            <h1 id="snay"></h1>
+            <h2 id="gbfs">Result a student</h2>
+            </div>
+            <div style="width: 100%; height: 100%; display: flex; justify-content: center;">
+            <form onsubmit="function abc(event) {event.preventDefault()} abc(event);">
+            <div class="tab" id="tab">
+
+            </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
