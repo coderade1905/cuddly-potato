@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,0" />
+    <link rel="stylesheet" href="../Navstyle/navstyle.css">
+    <link rel="stylesheet" href="/home/public/homestyle.css">
+    <script src="/jquery.min.js"></script>
+    <script src="/cookie-validate/validate.js"></script>
+    <script src="/cookie-validate/getcookie.js"></script>
+    <link rel="stylesheet" href="/commoncss/public/modal.css">
+    <link rel="stylesheet" href="/lm/public/style.css">
+    <script src="/test-exam/public/script1.js"></script>
+    <title>Test Exam</title>
+</head>
+<body>
+    <noscript>Please enable javascript!!</noscript>
+    <script>
+        var d = new Date();
+        var year = d.getFullYear();
+        validate("student");
+        $(document).ready(
+            function () {
+                $("#snay").text(getCookie("SN") + " "+ year);
+                }
+        );
+    </script>
+    <script>
+        $(document).ready(
+            function ()
+            {
+                $("#nav").hide()
+                $("#close").click(
+                    function () 
+                    {
+                        $("#nav").hide();
+                    }
+                );
+                $("#menu").click(
+                    function () 
+                    {
+                        $("#nav").show();
+                    }
+                );
+            }
+        )
+    </script>
+    <div class="fullnav" id="nav">
+        <div class="navnav"><span class="close material-symbols-rounded" id="close">
+            close
+            </span></div>
+        <div class="mmnu">
+            <div class="wrap">
+            <a href="/chat">Chats</a><br>
+            <a href="">Challenges</a><br>
+            <a href="">Lessons</a><br>
+            <a href="">News & Annoucments</a><br>
+            <a href="">Profile Settings</a><br>
+            </div>
+        </div>
+    </div>
+    <nav class="cnav">
+        <img src="" alt="Chat Logo" class="logo">
+        <span class="menu material-symbols-rounded" id="menu">
+            menu
+            </span>
+    </nav>
+    <main class="main">
+        <div class="main0">
+            <div class="header" style="margin-bottom: 0px;">
+            <h1 id="snay"></h1>
+            <h2 id="gbfs">Ready to take a test exam?</h2>
+            <h3>Test exams help you  evaluate yourself and based on your result an ai will tell you which topics to focus on!</h3>
+            </div>
+            <form action="" id="search">
+                <div class="search">
+                    <input autocomplete="off" type="text" placeholder="Search for test exams" id="searchinp" value="">
+                    <button type="submit">
+                        <span class="material-symbols-rounded">
+                        search
+                        </span>
+                    </button>
+                </div>
+            </form>
+            <div class="cont" id="cont">
+
+            </div>
+        </div>
+    </main>
+</body>
+</html>

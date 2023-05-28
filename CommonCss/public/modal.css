@@ -17,6 +17,7 @@
   margin: auto;
   height: 70%;
   width: 60%;
+  overflow-y: scroll;
 }
 
 .modal-content .modal-head {
@@ -48,6 +49,12 @@
   float: right;
   font-weight: 400;
   cursor: pointer;
+}
+
+.clbtn {
+  border: 0px;
+  height: 100%;
+  background-color: #fff;
 }
 
 @media screen and (max-width: 882px) {

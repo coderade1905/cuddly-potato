@@ -13,15 +13,9 @@ module.exports =  (app, express, con, con1, crypto, bp, mysql) => {
         {
         const Sid = data[0].Id;
         const q = `CREATE TABLE news${Sid} (Id int(10) NOT NULL,Title varchar(40) NOT NULL,Main varchar(1000) NOT NULL,Date timestamp(6) NOT NULL DEFAULT current_timestamp(6)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                    CREATE TABLE results${Sid} (Id int(10) NOT NULL,Subject varchar(20) NOT NULL,Result int(10) NOT NULL,Outof int(10) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
                     CREATE TABLE schema${Sid} (Field_Name varchar(20) NOT NULL,Field_Type varchar(10) NOT NULL,Length int(10) NOT NULL,Is_option tinyint(1) NOT NULL, options varchar(100) NOT NULL, t varchar(2) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
                     CREATE TABLE resschema${Sid} (Teacher_id int(10) NOT NULL,Type varchar(10) NOT NULL,Value int(10) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                    CREATE TABLE results${Sid} (Teacher_id int(10) NOT NULL,Type varchar(10) NOT NULL,Value int(10) NOT NULL,Student_id int(10) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-                    CREATE TABLE checkre${Sid} (Student_id int(10) NOT NULL, Teacher_id int(10) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-                    ALTER TABLE news${Sid}
-                    ADD PRIMARY KEY (Id);
-                    ALTER TABLE news${Sid}
-                    MODIFY Id int(10) NOT NULL AUTO_INCREMENT;`
+                    CREATE TABLE results${Sid} (Teacher_id int(10) NOT NULL,Type varchar(10) NOT NULL,Value int(10) NOT NULL,Student_id int(10) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`
         con1.query(q, (err, data) => {
             if (err) throw err;
             res.json({red : '/school-login', status : 200}); 

@@ -58,9 +58,18 @@ const con2 = mysql.createConnection({
     charset: 'utf8mb4',
     multipleStatements: true
 })
+const con3 = mysql.createConnection({
+    host: process.env.DATABASEHOST,
+    user: process.env.DATABASEUSER, 
+    password: process.env.DATABASEPASS,
+    database: process.env.DATABASE3,
+    port: 3307,
+    charset: 'utf8mb4',
+    multipleStatements: true
+})
 con.connect((err) => {if (err) {throw err};}); 
 con1.connect((err) => {if (err) {throw err};}); 
-const query = util.promisify(con1.query).bind(con1);
+con3.connect((err) => {if (err) {throw err};}); 
 
 require('./CommonCss/index.js')(app, express);
 require('./Register/index.js')(app, express, con, con1, crypto, bp);
@@ -72,10 +81,11 @@ require('./Home/index.js')(app, express, con, con1, crypto, bp, encrypt, decrypt
 require('./Cookie-Validate/index.js')(app, express, con, con1, crypto, bp, decrypt);
 require('./Search-School/index.js')(app, express, con, con1, crypto, bp, mysql, decrypt);
 require('./Send-otp/index.js')(app, express, con, con1, bp, nodeMailer, crypto);
-require('./School-home/index.js')(app, express, con, con1, crypto, bp, decrypt, query);
+require('./School-home/index.js')(app, express, con, con1, crypto, decrypt);
 require('./Addmission/index.js')(app, express, con, con1, crypto, bp, decrypt);
 require('./E-Learning/index.js')(app, express, con, con1, crypto, bp, decrypt);
 require('./Resulting/index.js')(app, express, con, con1, crypto, bp, encrypt, decrypt);
+require('./Test-exam/index.js')(app, express, con3, con, decrypt);
 require('./Font/index.js')(app, express);
 
 const port = 3030;
